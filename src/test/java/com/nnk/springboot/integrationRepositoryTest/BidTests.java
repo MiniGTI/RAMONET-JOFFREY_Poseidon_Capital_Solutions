@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class BidTests {
@@ -27,7 +29,7 @@ public class BidTests {
     public void bidListSaveTest() {
         BidList result = bidListRepository.save(bid);
         
-        Assertions.assertEquals(bid, result);
+        assertEquals(bid, result);
     }
     
     @Test
@@ -36,7 +38,7 @@ public class BidTests {
         bid.setBidQuantity(20d);
         bidListRepository.save(bid);
         
-        Assertions.assertEquals(bid, entityManager.find(BidList.class, bid.getId()));
+        assertEquals(bid, entityManager.find(BidList.class, bid.getId()));
     }
     
     @Test
@@ -45,7 +47,7 @@ public class BidTests {
         
         Optional<BidList> result = bidListRepository.findById(bid.getId());
         
-        Assertions.assertEquals(bid.getId(), result.get()
+        assertEquals(bid.getId(), result.get()
                 .getId());
     }
     
@@ -55,7 +57,7 @@ public class BidTests {
         
         List<BidList> result = bidListRepository.findAll();
         
-        Assertions.assertFalse(result.isEmpty());
+        assertFalse(result.isEmpty());
     }
     
     @Test
@@ -64,6 +66,6 @@ public class BidTests {
         
         bidListRepository.deleteById(bid.getId());
         
-        Assertions.assertNull(entityManager.find(BidList.class, bid.getId()));
+        assertNull(entityManager.find(BidList.class, bid.getId()));
     }
 }

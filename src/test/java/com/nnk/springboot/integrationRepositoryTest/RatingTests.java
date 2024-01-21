@@ -21,7 +21,12 @@ public class RatingTests {
     @Autowired
     private TestEntityManager entityManager;
     
-    private final Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+    private final Rating rating = Rating.builder()
+            .moodysRating("Moodys Rating")
+            .sandRating("Sand Rating")
+            .fitchRating("Fitch Rating")
+            .orderNumber(10)
+            .build();
     
     @Test
     public void ratingSaveTest() {

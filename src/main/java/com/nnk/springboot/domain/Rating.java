@@ -3,8 +3,12 @@ package com.nnk.springboot.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The Rating Object.
+ */
 @Entity
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "rating")
@@ -12,7 +16,7 @@ public class Rating {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "moodys_rating")
     private String moodysRating;
     @Column(name = "sand_rating")
@@ -20,12 +24,5 @@ public class Rating {
     @Column(name = "fitch_rating")
     private String fitchRating;
     @Column(name = "order_number")
-    private int orderNumber;
-    
-    public Rating(String moodysRating, String sandRating, String fitchRating, int orderNumber) {
-        this.moodysRating = moodysRating;
-        this.sandRating = sandRating;
-        this.fitchRating = fitchRating;
-        this.orderNumber = orderNumber;
-    }
+    private Integer orderNumber;
 }

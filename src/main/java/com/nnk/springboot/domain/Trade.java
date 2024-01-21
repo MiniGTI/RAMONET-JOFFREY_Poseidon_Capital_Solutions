@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 
 @Entity
@@ -29,7 +30,7 @@ public class Trade {
     @Column(name = "sell_price")
     private double sellPrice;
     @Column(name = "trade_date")
-    private Timestamp tradeDate;
+    private LocalDate tradeDate;
     private String security;
     private String status;
     private String trader;
@@ -38,11 +39,11 @@ public class Trade {
     @Column(name = "creation_name")
     private String creationName;
     @Column(name = "creation_date")
-    private Timestamp creationDate;
+    private LocalDate creationDate;
     @Column(name = "revision_name")
     private String revisionName;
     @Column(name = "revision_date")
-    private Timestamp revisionDate;
+    private LocalDate revisionDate;
     @Column(name = "deal_name")
     private String dealName;
     @Column(name = "deal_type")
