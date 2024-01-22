@@ -89,6 +89,7 @@ public class CurvePointServiceTest {
                 .value(98d)
                 .build();
         curvePoint.setValue(toUpdate.getValue());
+        curvePoint.setTerm(toUpdate.getTerm());
         when(curvePointRepository.findById(1)).thenReturn(Optional.of(curvePoint));
         when(curvePointRepository.save(curvePoint)).thenReturn(curvePoint);
         

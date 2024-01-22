@@ -3,10 +3,14 @@ package com.nnk.springboot.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * The RuleName Object.
+ */
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "rule_name")
 public class RuleName {
     
@@ -21,13 +25,5 @@ public class RuleName {
     private String sqlStr;
     @Column(name = "sql_part")
     private String sqlPart;
-    
-    public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
-        this.name = name;
-        this.description = description;
-        this.json = json;
-        this.template = template;
-        this.sqlStr = sqlStr;
-        this.sqlPart = sqlPart;
-    }
+
 }

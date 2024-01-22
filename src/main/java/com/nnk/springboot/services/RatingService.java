@@ -21,6 +21,7 @@ public class RatingService {
      * Call of slf4j class.
      */
     private final static Logger logger = LoggerFactory.getLogger(RatingService.class);
+    
     /**
      * Call the RatingRepository to perform CRUDs request to the database.
      */
@@ -58,30 +59,32 @@ public class RatingService {
                 ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
                 ratingDto.getOrderNumber());
         
-      return ratingRepository.save(Rating.builder()
-              .fitchRating(ratingDto.getFitchRating())
-              .sandRating(ratingDto.getSandRating())
-              .moodysRating(ratingDto.getMoodysRating())
-              .orderNumber(ratingDto.getOrderNumber())
-              .build());
+        return ratingRepository.save(Rating.builder()
+                .fitchRating(ratingDto.getFitchRating())
+                .sandRating(ratingDto.getSandRating())
+                .moodysRating(ratingDto.getMoodysRating())
+                .orderNumber(ratingDto.getOrderNumber())
+                .build());
     }
+    
     /**
      * Call the save method of the Rating repository to save changes on the RatingDto parsed.
      * Used by the /rating/update/{id} form in the update.html page.
      * Managed by the RatingController.
      *
      * @param ratingDto the ratingDto created with the update form.
-     *               First, get the Rating to update with the id attribute of the RatingDto parsed.
-     *               After that, check all attributes to verify if are empty. If not, set the Rating to update with the attributes of the RatingDto parsed.
+     *                  First, get the Rating to update with the id attribute of the RatingDto parsed.
+     *                  After that, check all attributes to verify if are empty. If not, set the Rating to update with the attributes of the RatingDto parsed.
      * @return call the save method of the Rating repository with the Rating updated.
      */
     public Rating update(RatingDto ratingDto) {
-        logger.debug("Informations parsed to update are: moodysRating: " + ratingDto.getMoodysRating() + " sandRating: " +
-                ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
-                ratingDto.getOrderNumber());
+        logger.debug(
+                "Informations parsed to update are: moodysRating: " + ratingDto.getMoodysRating() + " sandRating: " +
+                        ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
+                        ratingDto.getOrderNumber());
         
         Rating ratingUpdated = getById(ratingDto.getId());
-       
+        
         if(!ratingDto.getMoodysRating()
                 .isEmpty()) {
             ratingUpdated.setMoodysRating(ratingDto.getMoodysRating());
