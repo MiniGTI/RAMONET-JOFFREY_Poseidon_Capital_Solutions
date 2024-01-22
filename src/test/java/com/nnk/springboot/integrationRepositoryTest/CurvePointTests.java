@@ -20,7 +20,10 @@ public class CurvePointTests {
     private CurvePointRepository curvePointRepository;
     @Autowired
     private TestEntityManager entityManager;
-    private final CurvePoint curvePoint = new CurvePoint(10d, 30d);
+    private final CurvePoint curvePoint = CurvePoint.builder()
+            .term(10d)
+            .value(30d)
+            .build();
     
     @Test
     public void curvePointSaveTest() {

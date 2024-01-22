@@ -1,9 +1,11 @@
 package com.nnk.springboot.unitServiceTest;
 
+import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.services.RatingService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,6 +59,16 @@ void saveWithRatingDtoTest(){
     
     assertEquals(rating.getId(), result.getId());
 }
+    
+    @Test
+    void shouldReturnExceptionIfGetByIdNotFoundCurvePointTest(){
+        Integer id = 1;
+        when(ratingRepository.findById(id)).thenReturn(Optional.empty());
+        
+        RuntimeException runtimeException = Assertions.assertThrows(RuntimeException.class, () -> ratingService.getById(id));
+        
+        assertTrue("Rating id: 1 not found.".contains(runtimeException.getMessage()));
+    }
 
 @Test
     void findAllShouldReturnAListOfAllRatingTest(){
@@ -72,8 +84,11 @@ void saveWithRatingDtoTest(){
 @Test
 void shouldUpdateRatingTest(){
     when(ratingRepository.findById(rating.getId())).thenReturn(Optional.of(rating));
-    RatingDto update = new RatingDto(rating.getId(),"", "newSandRating", "", null);
+    RatingDto update = new RatingDto(rating.getId(),"newMoodysRating", "newSandRating", "newFitchRating", 5);
     rating.setSandRating(update.getSandRating());
+    rating.setMoodysRating(update.getMoodysRating());
+    rating.setFitchRating(update.getFitchRating());
+    rating.setOrderNumber(update.getOrderNumber());
     when(ratingRepository.save(rating)).thenReturn(rating);
     
     Rating ratingUpdated = ratingService.update(update);

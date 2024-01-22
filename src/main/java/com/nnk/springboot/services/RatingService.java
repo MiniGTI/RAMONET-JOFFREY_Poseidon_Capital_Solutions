@@ -54,57 +54,52 @@ public class RatingService {
      * @return call the save méthode of the Rating repository.
      */
     public Rating save(RatingDto ratingDto) {
-        Rating rating = new Rating();
+        logger.debug("Informations parsed to save are: moodysRating: " + ratingDto.getMoodysRating() + " sandRating: " +
+                ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
+                ratingDto.getOrderNumber());
         
-        rating.setFitchRating(ratingDto.getFitchRating());
-        rating.setSandRating(ratingDto.getSandRating());
-        rating.setMoodysRating(ratingDto.getMoodysRating());
-        rating.setOrderNumber(ratingDto.getOrderNumber());
-        
-        return ratingRepository.save(rating);
+      return ratingRepository.save(Rating.builder()
+              .fitchRating(ratingDto.getFitchRating())
+              .sandRating(ratingDto.getSandRating())
+              .moodysRating(ratingDto.getMoodysRating())
+              .orderNumber(ratingDto.getOrderNumber())
+              .build());
     }
     /**
      * Call the save method of the Rating repository to save changes on the RatingDto parsed.
      * Used by the /rating/update/{id} form in the update.html page.
      * Managed by the RatingController.
      *
-     * @param ratingdto the rating createdDto with the update form.
+     * @param ratingDto the ratingDto created with the update form.
      *               First, get the Rating to update with the id attribute of the RatingDto parsed.
      *               After that, check all attributes to verify if are empty. If not, set the Rating to update with the attributes of the RatingDto parsed.
      * @return call the save method of the Rating repository with the Rating updated.
      */
-    public Rating update(RatingDto ratingdto) {
-        logger.debug("Informations parsed to update are: moodysRating: " + ratingdto.getMoodysRating() + " sandRating: " +
-                ratingdto.getSandRating() + " fitchRating: " + ratingdto.getFitchRating() + " orderNumber: " +
-                ratingdto.getOrderNumber());
+    public Rating update(RatingDto ratingDto) {
+        logger.debug("Informations parsed to update are: moodysRating: " + ratingDto.getMoodysRating() + " sandRating: " +
+                ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
+                ratingDto.getOrderNumber());
         
-        Optional<Rating> optRating = ratingRepository.findById(ratingdto.getId());
-        Rating ratingUpdated = null;
-        
-        if(optRating.isPresent()) {
-            ratingUpdated = optRating.get();
-        } else {
-            throw new RuntimeException("No rating find");
-        }
-        
-        if(!ratingdto.getMoodysRating()
+        Rating ratingUpdated = getById(ratingDto.getId());
+       
+        if(!ratingDto.getMoodysRating()
                 .isEmpty()) {
-            ratingUpdated.setMoodysRating(ratingdto.getMoodysRating());
+            ratingUpdated.setMoodysRating(ratingDto.getMoodysRating());
         }
-        if(!ratingdto.getSandRating()
+        if(!ratingDto.getSandRating()
                 .isEmpty()) {
-            ratingUpdated.setSandRating(ratingdto.getSandRating());
+            ratingUpdated.setSandRating(ratingDto.getSandRating());
         }
-        if(!ratingdto.getFitchRating()
+        if(!ratingDto.getFitchRating()
                 .isEmpty()) {
-            ratingUpdated.setFitchRating(ratingdto.getFitchRating());
+            ratingUpdated.setFitchRating(ratingDto.getFitchRating());
         }
-        if(ratingdto.getOrderNumber() != null) {
-            ratingUpdated.setOrderNumber(ratingdto.getOrderNumber());
+        if(ratingDto.getOrderNumber() != null) {
+            ratingUpdated.setOrderNumber(ratingDto.getOrderNumber());
         }
         logger.debug("The ratingUpdated attributes: id: " + ratingUpdated.getId() + " moodysRating: " +
-                ratingdto.getMoodysRating() + " sandRating: " + ratingdto.getSandRating() + "fitchRating: " +
-                ratingdto.getFitchRating() + " orderNumber: " + ratingdto.getOrderNumber());
+                ratingDto.getMoodysRating() + " sandRating: " + ratingDto.getSandRating() + "fitchRating: " +
+                ratingDto.getFitchRating() + " orderNumber: " + ratingDto.getOrderNumber());
         return ratingRepository.save(ratingUpdated);
     }
     
@@ -112,6 +107,7 @@ public class RatingService {
      * Call the findById method of the Rating repository.
      * <p>
      * Get the Optional Rating return by the repository.
+     * Throws an Exception if the Rating Repository return an empty Optional.
      *
      * @param id id of the Rating object parsed.
      * @return The Rating found.

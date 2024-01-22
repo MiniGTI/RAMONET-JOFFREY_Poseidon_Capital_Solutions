@@ -33,23 +33,17 @@ public class RatingControllerTest {
     @Autowired
     private MockMvc mvc;
     
-    @Autowired
-    private RatingController ratingController;
-    
-    @Mock
-    private Model model;
-    
     @MockBean
     private RatingService ratingService;
     
-    Rating rating = new Rating(1, "moodys", "sand", "fitch", 50);
-    RatingDto ratingDto = RatingDto.builder()
+    private final Rating rating = new Rating(1, "moodys", "sand", "fitch", 50);
+    private final RatingDto ratingDto = RatingDto.builder()
             .moodysRating("newMoodys")
             .sandRating("newRating")
             .fitchRating("newFitch")
             .orderNumber(55)
             .build();
-    List<Rating> ratings = new ArrayList<>(List.of(rating, new Rating()));
+    private final List<Rating> ratings = new ArrayList<>(List.of(rating, new Rating()));
     
     @Test
     @WithMockUser
