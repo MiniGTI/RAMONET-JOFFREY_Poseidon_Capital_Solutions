@@ -55,6 +55,12 @@ public class RatingControllerTest {
                 .andExpect(model().attribute("ratings", hasSize(2)));
     }
     
+    @Test
+    @WithMockUser
+    void shouldReturnRatingAddPageTest() throws Exception {
+        mvc.perform(get("/rating/add"))
+                .andExpect(status().isOk());
+    }
     
     @Test
     @WithMockUser

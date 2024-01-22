@@ -20,37 +20,42 @@ public class RuleTests {
     private RuleNameRepository ruleNameRepository;
     @Autowired
     private TestEntityManager entityManager;
-    
-    private final RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
-    
+    private final RuleName ruleName = RuleName.builder()
+            .name("Rule Name")
+            .description("Description")
+            .json("json")
+            .template("Template")
+            .sqlStr("SQL")
+            .sqlPart("SQL Part")
+            .build();
     @Test
     public void ruleSaveTest() {
-        RuleName result = ruleNameRepository.save(rule);
+        RuleName result = ruleNameRepository.save(ruleName);
         
-        Assertions.assertEquals(rule, result);
+        Assertions.assertEquals(ruleName, result);
     }
     
     @Test
     public void ruleUpdateTest() {
-        entityManager.persist(rule);
-        rule.setName("nex rule name");
-        ruleNameRepository.save(rule);
+        entityManager.persist(ruleName);
+        ruleName.setName("nex rule name");
+        ruleNameRepository.save(ruleName);
         
-        Assertions.assertEquals(rule, entityManager.find(RuleName.class, rule.getId()));
+        Assertions.assertEquals(ruleName, entityManager.find(RuleName.class, ruleName.getId()));
     }
     
     @Test
     public void ruleFindByIdTest() {
-        entityManager.persist(rule);
-        Optional<RuleName> result = ruleNameRepository.findById(rule.getId());
+        entityManager.persist(ruleName);
+        Optional<RuleName> result = ruleNameRepository.findById(ruleName.getId());
         
-        Assertions.assertEquals(rule.getId(), result.get()
+        Assertions.assertEquals(ruleName.getId(), result.get()
                 .getId());
     }
     
     @Test
     public void ruleFinAllTest() {
-        entityManager.persist(rule);
+        entityManager.persist(ruleName);
         List<RuleName> result = ruleNameRepository.findAll();
         
         Assertions.assertFalse(result.isEmpty());
@@ -58,10 +63,10 @@ public class RuleTests {
     
     @Test
     public void ruleDeleteByIdTest() {
-        entityManager.persist(rule);
-        ruleNameRepository.deleteById(rule.getId());
+        entityManager.persist(ruleName);
+        ruleNameRepository.deleteById(ruleName.getId());
         
-        Assertions.assertNull(entityManager.find(RuleName.class, rule.getId()));
+        Assertions.assertNull(entityManager.find(RuleName.class, ruleName.getId()));
     }
  
 }

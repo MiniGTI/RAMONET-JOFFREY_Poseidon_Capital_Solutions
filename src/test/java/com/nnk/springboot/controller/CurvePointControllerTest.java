@@ -3,9 +3,7 @@ package com.nnk.springboot.controller;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CurvePointDto;
 import com.nnk.springboot.services.CurvePointService;
-import lombok.With;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +12,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -66,7 +63,7 @@ public class CurvePointControllerTest {
     
     @Test
     @WithMockUser
-    void shouldReturnCurvePointValidatePageTest() throws Exception {
+    void shouldReturnCurvePointValidateFormTest() throws Exception {
         RequestBuilder request = post("/curvePoint/validate").param("term", String.valueOf(curvePointDto.getTerm()))
                 .param("value", String.valueOf(curvePointDto.getValue()))
                 .with(csrf());
@@ -77,7 +74,7 @@ public class CurvePointControllerTest {
     
     @Test
     @WithMockUser
-    void shouldReturntUpdatePageTest() throws Exception {
+    void shouldReturnUpdatePageTest() throws Exception {
         when(curvePointService.getById(curvePoint.getId())).thenReturn(curvePoint);
         
         mvc.perform(get("/curvePoint/update/{id}", 1))
@@ -87,12 +84,11 @@ public class CurvePointControllerTest {
     
     @Test
     @WithMockUser
-    void shouldUpdateCurvePointWithCurvePointDtoTest() throws Exception{
+    void shouldUpdateCurvePointWithCurvePointDtoTest() throws Exception {
         curvePoint.setValue(35d);
         when(curvePointService.update(curvePointDto)).thenReturn(curvePoint);
         
-        RequestBuilder request = post("/curvePoint/update/{id}", 1)
-                .param("term", String.valueOf(35d))
+        RequestBuilder request = post("/curvePoint/update/{id}", 1).param("term", String.valueOf(35d))
                 .with(csrf());
         mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())
@@ -101,9 +97,10 @@ public class CurvePointControllerTest {
     
     @Test
     @WithMockUser
-    void shouldDeleteCurvePointTest() throws Exception{
-        when(curvePointService.getById(1)).thenReturn(curvePoint);
-        doNothing().when(curvePointService).deleteById(1);
-        mvc.perform(get("/curvePoint/delete/{id}", 1)).andExpect(redirectedUrl("/curvePoint/list"));
+    void shouldDeleteCurvePointTest() throws Exception {
+        doNothing().when(curvePointService)
+                .deleteById(1);
+        mvc.perform(get("/curvePoint/delete/{id}", 1))
+                .andExpect(redirectedUrl("/curvePoint/list"));
     }
 }

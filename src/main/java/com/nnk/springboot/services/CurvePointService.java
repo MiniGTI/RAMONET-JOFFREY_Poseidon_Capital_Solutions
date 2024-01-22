@@ -22,7 +22,7 @@ public class CurvePointService {
     /**
      * Call of slf4j class.
      */
-    private final static Logger logger = LoggerFactory.getLogger(RatingService.class);
+    private final static Logger logger = LoggerFactory.getLogger(CurvePointService.class);
     /**
      * Call the CurvePointRepository to perform CRUDs request to the database.
      */
