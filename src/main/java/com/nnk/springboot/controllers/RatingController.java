@@ -92,7 +92,7 @@ public class RatingController {
     /**
      * To display the update page.
      *
-     * @param id    the id of the rating to update parsed
+     * @param id    the id of the rating to update parsed.
      * @param model the Rating's attributes to parse for the view.
      * @return the update.html of the rating template folder.
      */
