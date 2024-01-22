@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -30,7 +31,7 @@ public class BidList {
     private double ask;
     private String benchmark;
     @Column(name = "bid_list_date")
-    private Timestamp bidListDate;
+    private LocalDate bidListDate;
     private String commentary;
     private String security;
     private String status;
@@ -39,11 +40,11 @@ public class BidList {
     @Column(name = "creation_name")
     private String creationName;
     @Column(name = "creation_date")
-    private Timestamp creationDate;
+    private LocalDate creationDate;
     @Column(name = "revision_name")
     private String revisionName;
     @Column(name = "revision_date")
-    private Timestamp revisionDate;
+    private LocalDate revisionDate;
     @Column(name = "deal_name")
     private String dealName;
     @Column(name = "deal_type")
