@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller class for the rating folder.
+ * Controller class for the Rating folder.
  * Page to see the list of all Rating.
  * Page to update Ratings.
  * Page to delete Ratings.
@@ -92,7 +92,7 @@ public class RatingController {
     /**
      * To display the update page.
      *
-     * @param id    the id of the rating to update parsed.
+     * @param id    the id of the Rating to update parsed.
      * @param model the Rating's attributes to parse for the view.
      * @return the update.html of the rating template folder.
      */
@@ -108,11 +108,11 @@ public class RatingController {
     /**
      * To perform the update form of the page.
      *
-     * @param id        the id of the rating parsed into the url of the page with showUpdateForm method.
-     * @param ratingDto the Dto create after submit of the form to update the rating.
+     * @param id        the id of the Rating parsed into the url of the page with showUpdateForm method.
+     * @param ratingDto the Dto create after submit of the form to update the Rating.
      * @param result    to catch any errors and return the related error message.
      * @param model     to get data from the form.
-     * @return the list.html of the rating template folder or stay on the update page if result has an error.
+     * @return the list.html of the Rating template folder or stay on the update page if result has an error.
      */
     @PostMapping("/rating/update/{id}")
     public String updateRating(
@@ -131,16 +131,15 @@ public class RatingController {
     /**
      * Manage the delete button.
      * To delete the Rating.
-     * Call the deleteById of the ratingService to delete the Rating linked.
+     * Call the deleteById of the RatingService to delete the Rating linked.
      *
-     * @param id the id of the rating linked.
+     * @param id the id of the Rating linked.
      * @return the list.html of the rating template folder.
      */
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(
             @PathVariable("id") Integer id) {
-        ratingService.deleteById(ratingService.getById(id)
-                .getId());
+        ratingService.deleteById(id);
         return "redirect:/rating/list";
     }
 }
