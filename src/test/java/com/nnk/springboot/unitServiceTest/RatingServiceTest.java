@@ -61,7 +61,7 @@ void saveWithRatingDtoTest(){
 }
     
     @Test
-    void shouldReturnExceptionIfGetByIdNotFoundCurvePointTest(){
+    void shouldReturnExceptionIfGetByIdNotFoundRatingTest(){
         Integer id = 1;
         when(ratingRepository.findById(id)).thenReturn(Optional.empty());
         

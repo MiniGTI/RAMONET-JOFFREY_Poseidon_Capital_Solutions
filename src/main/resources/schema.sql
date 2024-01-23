@@ -27,7 +27,7 @@ CREATE TABLE bid_list (
 );
 
 CREATE TABLE trade (
-  trade_id tinyint(4) NOT NULL AUTO_INCREMENT,
+  id tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   buy_quantity DECIMAL,
@@ -49,7 +49,7 @@ CREATE TABLE trade (
   source_list_id VARCHAR(125),
   side VARCHAR(125),
 
-  PRIMARY KEY (trade_id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE curve_point (

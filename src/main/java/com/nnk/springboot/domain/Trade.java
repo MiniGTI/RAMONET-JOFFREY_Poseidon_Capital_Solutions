@@ -6,16 +6,17 @@ import lombok.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-
+/**
+ * The Trade object;
+ */
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "trade")
 public class Trade {
     
-    @Column(
-            name = "trade_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -51,10 +52,5 @@ public class Trade {
     @Column(name = "source_list_id")
     private String sourceListId;
     private String side;
-    
-    
-    public Trade(String account, String type) {
-        this.account = account;
-        this.type = type;
-    }
+
 }
