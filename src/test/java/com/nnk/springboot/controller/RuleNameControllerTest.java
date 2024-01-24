@@ -3,9 +3,7 @@ package com.nnk.springboot.controller;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.dto.RuleNameDto;
 import com.nnk.springboot.services.RuleNameService;
-import lombok.With;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

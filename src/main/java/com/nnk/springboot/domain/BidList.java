@@ -3,21 +3,24 @@ package com.nnk.springboot.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-
+/**
+ * The BidList Object.
+ */
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "bid_list")
 public class BidList {
     
-    @Column(name = "bid_list_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

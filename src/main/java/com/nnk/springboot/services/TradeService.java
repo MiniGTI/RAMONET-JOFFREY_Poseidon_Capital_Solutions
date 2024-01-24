@@ -122,8 +122,8 @@ public class TradeService {
         if(tradeDto.getBuyQuantity() != null) {
             tradeUpdated.setBuyQuantity(tradeDto.getBuyQuantity());
         }
-        logger.debug("The tradeUpdated attributes: id: " + tradeUpdated.getId() + " account: " + tradeDto.getAccount() +
-                " type: " + tradeDto.getType() + " buyQuantity: " + tradeDto.getBuyQuantity());
+        logger.debug("The tradeUpdated attributes: id: " + tradeUpdated.getId() + " account: " + tradeUpdated.getAccount() +
+                " type: " + tradeUpdated.getType() + " buyQuantity: " + tradeUpdated.getBuyQuantity());
         
         return tradeRepository.save(tradeUpdated);
     }
