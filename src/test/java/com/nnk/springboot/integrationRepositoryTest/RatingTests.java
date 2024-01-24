@@ -38,7 +38,7 @@ public class RatingTests {
     @Test
     public void ratingUpdateTest() {
         entityManager.persist(rating);
-        rating.setMoodysRating("new Moddys Rating");
+        rating.setMoodys("new Moddys Rating");
         ratingRepository.save(rating);
         
         Assertions.assertEquals(rating, entityManager.find(Rating.class, rating.getId()));

@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+
 /**
  * The BidList Object.
  */
@@ -24,7 +26,13 @@ public class BidList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Size(
+            max = 30,
+            message = "The account name can not exceed 30 characters.")
     private String account;
+    @Size(
+            max = 30,
+            message = "The type name can not exceed 30 characters.")
     private String type;
     @Column(name = "bid_quantity")
     private double bidQuantity;
@@ -32,35 +40,39 @@ public class BidList {
     private double askQuantity;
     private double bid;
     private double ask;
+    @Size(max = 125)
     private String benchmark;
     @Column(name = "bid_list_date")
     private LocalDate bidListDate;
+    @Size(max = 125)
     private String commentary;
+    @Size(max = 125)
     private String security;
+    @Size(max = 10)
     private String status;
+    @Size(max = 125)
     private String trader;
+    @Size(max = 125)
     private String book;
+    @Size(max = 125)
     @Column(name = "creation_name")
     private String creationName;
     @Column(name = "creation_date")
     private LocalDate creationDate;
+    @Size(max = 125)
     @Column(name = "revision_name")
     private String revisionName;
     @Column(name = "revision_date")
     private LocalDate revisionDate;
+    @Size(max = 125)
     @Column(name = "deal_name")
     private String dealName;
+    @Size(max = 125)
     @Column(name = "deal_type")
     private String dealType;
+    @Size(max = 125)
     @Column(name = "source_list_id ")
     private String sourceListId;
+    @Size(max = 125)
     private String side;
-    
-    
-    public BidList(String account, String type, double bidQuantity) {
-        this.account = account;
-        this.type = type;
-        this.bidQuantity = bidQuantity;
-    }
-    
 }

@@ -1,5 +1,6 @@
 package com.nnk.springboot.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +18,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TradeDto {
     
-    private Integer id;
-    @Size(max = 30)
+    private int id;
+    @Size(
+            max = 30,
+            message = "The account name can not exceed 30 characters.")
     private String account;
-    @Size(max = 30)
+    @Size(
+            max = 30,
+            message = "The type name can not exceed 30 characters.")
     private String type;
+    @Column(name = "buy_quantity")
     private Double buyQuantity;
 }

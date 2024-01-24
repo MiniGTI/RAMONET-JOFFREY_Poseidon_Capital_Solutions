@@ -18,9 +18,13 @@ import lombok.NoArgsConstructor;
 public class BidListDto {
     
     private Integer id;
-    @Size(max = 30)
+    @Size(
+            max = 30,
+            message = "The account name can not exceed 30 characters.")
     private String account;
-    @Size(max = 30)
+    @Size(
+            max = 30,
+            message = "The type name can not exceed 30 characters.")
     private String type;
     private Double bidQuantity;
 }

@@ -23,8 +23,8 @@ public class CurvePoint {
     private int curveId;
     @Column(name = "as_of_date")
     private LocalDate asOfDate;
-    private double term;
-    private double value;
+    private Double term;
+    private Double value;
     @Column(name = "creation_date")
     private LocalDate creationDate;
 }

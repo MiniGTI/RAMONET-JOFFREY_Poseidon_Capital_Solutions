@@ -55,15 +55,15 @@ public class RatingService {
      * @return call the save méthode of the Rating repository.
      */
     public Rating save(RatingDto ratingDto) {
-        logger.debug("Informations parsed to save are: moodysRating: " + ratingDto.getMoodysRating() + " sandRating: " +
-                ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
-                ratingDto.getOrderNumber());
+        logger.debug("Informations parsed to save are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
+                ratingDto.getSand() + " fitchRating: " + ratingDto.getFitch() + " orderNumber: " +
+                ratingDto.getOrder());
         
         return ratingRepository.save(Rating.builder()
-                .fitchRating(ratingDto.getFitchRating())
-                .sandRating(ratingDto.getSandRating())
-                .moodysRating(ratingDto.getMoodysRating())
-                .orderNumber(ratingDto.getOrderNumber())
+                .fitch(ratingDto.getFitch())
+                .sand(ratingDto.getSand())
+                .moodys(ratingDto.getMoodys())
+                .order(ratingDto.getOrder())
                 .build());
     }
     
@@ -79,30 +79,30 @@ public class RatingService {
      */
     public Rating update(RatingDto ratingDto) {
         logger.debug(
-                "Informations parsed to update are: moodysRating: " + ratingDto.getMoodysRating() + " sandRating: " +
-                        ratingDto.getSandRating() + " fitchRating: " + ratingDto.getFitchRating() + " orderNumber: " +
-                        ratingDto.getOrderNumber());
+                "Informations parsed to update are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
+                        ratingDto.getSand() + " fitchRating: " + ratingDto.getFitch() + " orderNumber: " +
+                        ratingDto.getOrder());
         
         Rating ratingUpdated = getById(ratingDto.getId());
         
-        if(!ratingDto.getMoodysRating()
+        if(!ratingDto.getMoodys()
                 .isEmpty()) {
-            ratingUpdated.setMoodysRating(ratingDto.getMoodysRating());
+            ratingUpdated.setMoodys(ratingDto.getMoodys());
         }
-        if(!ratingDto.getSandRating()
+        if(!ratingDto.getSand()
                 .isEmpty()) {
-            ratingUpdated.setSandRating(ratingDto.getSandRating());
+            ratingUpdated.setSand(ratingDto.getSand());
         }
-        if(!ratingDto.getFitchRating()
+        if(!ratingDto.getFitch()
                 .isEmpty()) {
-            ratingUpdated.setFitchRating(ratingDto.getFitchRating());
+            ratingUpdated.setFitch(ratingDto.getFitch());
         }
-        if(ratingDto.getOrderNumber() != null) {
-            ratingUpdated.setOrderNumber(ratingDto.getOrderNumber());
+        if(ratingDto.getOrder() != null) {
+            ratingUpdated.setOrder(ratingDto.getOrder());
         }
         logger.debug("The ratingUpdated attributes: id: " + ratingUpdated.getId() + " moodysRating: " +
-                ratingDto.getMoodysRating() + " sandRating: " + ratingDto.getSandRating() + "fitchRating: " +
-                ratingDto.getFitchRating() + " orderNumber: " + ratingDto.getOrderNumber());
+                ratingDto.getMoodys() + " sandRating: " + ratingDto.getSand() + "fitchRating: " +
+                ratingDto.getFitch() + " orderNumber: " + ratingDto.getOrder());
         return ratingRepository.save(ratingUpdated);
     }
     

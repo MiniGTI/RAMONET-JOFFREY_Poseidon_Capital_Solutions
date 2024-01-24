@@ -1,5 +1,6 @@
 package com.nnk.springboot.dto;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +18,12 @@ import lombok.NoArgsConstructor;
 public class RatingDto {
     
     private Integer id;
-    private String moodysRating;
-    private String sandRating;
-    private String fitchRating;
-    private Integer orderNumber;
+    @Size(max = 125, message = "Moodys name can not exceed 125 characters.")
+    private String moodys;
+    @Size(max = 125, message = "Sand name can not exceed 125 characters.")
+    private String sand;
+    @Size(max = 125, message = "Ficth name can not exceed 125 characters.")
+    private String fitch;
+    private Integer order;
     
 }

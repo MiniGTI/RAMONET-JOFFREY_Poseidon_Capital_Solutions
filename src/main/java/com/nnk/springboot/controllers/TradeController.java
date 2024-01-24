@@ -75,16 +75,14 @@ public class TradeController {
      * @return redirect on the trade/list page or stay on the add page if result has an error.
      */
     @PostMapping("/trade/validate")
-    public String validate(@Valid
-                           @ModelAttribute("tradeDto")
-                           TradeDto tradeDto, BindingResult result, Model model) {
+    public String validate(@Valid TradeDto tradeDto, BindingResult result, Model model) {
         
-        if(result.hasErrors()) {
-            return "redirect:/trade/add";
+        if(!result.hasErrors()) {
+            tradeService.save(tradeDto);
+            model.addAttribute("tradeDto", tradeDto);
+            return "redirect:/trade/list";
         }
-        tradeService.save(tradeDto);
-        model.addAttribute("tradeDto", tradeDto);
-        return "redirect:/trade/list";
+        return "trade/add";
     }
     
     /**
@@ -114,16 +112,15 @@ public class TradeController {
      */
     @PostMapping("/trade/update/{id}")
     public String updateTrade(
-            @PathVariable("id") Integer id, @Valid
-    @ModelAttribute("tradeDto")
-    TradeDto tradeDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "redirect:/trade/update/{id}";
+            @PathVariable("id") Integer id, @Valid TradeDto tradeDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            
+            tradeDto.setId(id);
+            tradeService.update(tradeDto);
+            model.addAttribute("tradeDto", tradeDto);
+            return "redirect:/trade/list";
         }
-        tradeDto.setId(id);
-        tradeService.update(tradeDto);
-        model.addAttribute("tradeDto", tradeDto);
-        return "redirect:/trade/list";
+        return showUpdateForm(id, model);
     }
     
     /**

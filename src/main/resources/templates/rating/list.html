@@ -40,10 +40,10 @@
 			<tbody>
 				<tr th:each="rating : ${ratings}">
 					<td style="width: 10%" th:text="${rating.getId()}"></td>
-					<td th:text="${rating.getMoodysRating()}"></td>
-					<td th:text="${rating.getSandRating()}"></td>
-					<td th:text="${rating.getFitchRating()}"></td>
-					<td th:text="${rating.getOrderNumber()}"></td>
+					<td th:text="${rating.getMoodys()}"></td>
+					<td th:text="${rating.getSand()}"></td>
+					<td th:text="${rating.getFitch()}"></td>
+					<td th:text="${rating.getOrder()}"></td>
 					<td style="width: 15%" class="text-center">
 						<a th:href="@{/rating/update/{id}(id=${rating.getId()})}">Edit</a>&nbsp;|&nbsp;
 						<a th:href="@{/rating/delete/{id}(id=${rating.getId()})}">Delete</a>

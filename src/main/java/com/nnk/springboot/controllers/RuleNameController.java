@@ -75,15 +75,13 @@ public class RuleNameController {
      * @return redirect on the ruleName/list page or stay on the add page if result has an error.
      */
     @PostMapping("/ruleName/validate")
-    public String validate(@Valid
-                           @ModelAttribute("ruleNameDto")
-                           RuleNameDto ruleNameDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "/ruleName/add";
+    public String validate(@Valid RuleNameDto ruleNameDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            ruleNameService.save(ruleNameDto);
+            model.addAttribute("ruleNameDto", ruleNameDto);
+            return "redirect:/ruleName/list";
         }
-        ruleNameService.save(ruleNameDto);
-        model.addAttribute("ruleNameDto", ruleNameDto);
-        return "redirect:/ruleName/list";
+        return "/ruleName/add";
     }
     
     /**
@@ -112,16 +110,14 @@ public class RuleNameController {
      */
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(
-            @PathVariable("id") Integer id, @Valid
-    @ModelAttribute("ruleNameDto")
-    RuleNameDto ruleNameDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "redirect:/ruleName/update/{id}";
+            @PathVariable("id") Integer id, @Valid RuleNameDto ruleNameDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            ruleNameDto.setId(id);
+            ruleNameService.update(ruleNameDto);
+            model.addAttribute("ruleNameDto", ruleNameDto);
+            return "redirect:/ruleName/list";
         }
-        ruleNameDto.setId(id);
-        ruleNameService.update(ruleNameDto);
-        model.addAttribute("ruleNameDto", ruleNameDto);
-        return "redirect:/ruleName/list";
+        return showUpdateForm(id, model);
     }
     
     /**
