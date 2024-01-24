@@ -1,6 +1,6 @@
 
 CREATE TABLE bid_list (
-  bid_list_id tinyint(4) NOT NULL AUTO_INCREMENT,
+  id tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   bid_quantity DECIMAL,
@@ -23,7 +23,7 @@ CREATE TABLE bid_list (
   source_list_id VARCHAR(125),
   side VARCHAR(125),
 
-  PRIMARY KEY (bid_list_id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE trade (
