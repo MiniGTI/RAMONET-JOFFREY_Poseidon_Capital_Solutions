@@ -3,10 +3,10 @@ CREATE TABLE bid_list (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
-  bid_quantity DECIMAL,
-  ask_quantity DECIMAL,
-  bid DECIMAL ,
-  ask DECIMAL,
+  bid_quantity DECIMAL(14,4),
+  ask_quantity DECIMAL(14,4),
+  bid DECIMAL(14,4),
+  ask DECIMAL(14,4),
   benchmark VARCHAR(125),
   bid_list_date TIMESTAMP,
   commentary VARCHAR(125),
@@ -30,10 +30,10 @@ CREATE TABLE trade (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
-  buy_quantity DECIMAL,
-  sell_quantity DECIMAL,
-  buy_price DECIMAL ,
-  sell_price DECIMAL,
+  buy_quantity DECIMAL(14,4),
+  sell_quantity DECIMAL(14,4),
+  buy_price DECIMAL(14,4),
+  sell_price DECIMAL(14,4),
   trade_date TIMESTAMP,
   security VARCHAR(125),
   status VARCHAR(10),
@@ -56,8 +56,8 @@ CREATE TABLE curve_point (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
   curve_id tinyint,
   as_of_date TIMESTAMP,
-  term DECIMAL ,
-  value DECIMAL ,
+  term DECIMAL(14,4),
+  value DECIMAL(14,4),
   creation_date TIMESTAMP ,
 
   PRIMARY KEY (id)
@@ -65,10 +65,10 @@ CREATE TABLE curve_point (
 
 CREATE TABLE rating (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
-  moodys_rating VARCHAR(125),
-  sand_rating VARCHAR(125),
-  fitch_rating VARCHAR(125),
-  order_number tinyint,
+  moodys VARCHAR(125),
+  sand VARCHAR(125),
+  fitch VARCHAR(125),
+  order_rating tinyint,
 
   PRIMARY KEY (id)
 );

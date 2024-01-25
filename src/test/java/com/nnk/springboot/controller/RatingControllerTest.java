@@ -1,11 +1,9 @@
 package com.nnk.springboot.controller;
 
-import com.nnk.springboot.controllers.RatingController;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.services.RatingService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +12,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +35,10 @@ public class RatingControllerTest {
     
     private final Rating rating = new Rating(1, "moodys", "sand", "fitch", 50);
     private final RatingDto ratingDto = RatingDto.builder()
-            .moodysRating("newMoodys")
-            .sandRating("newRating")
-            .fitchRating("newFitch")
-            .orderNumber(55)
+            .moodys("newMoodys")
+            .sand("newRating")
+            .fitch("newFitch")
+            .order(55)
             .build();
     private final List<Rating> ratings = new ArrayList<>(List.of(rating, new Rating()));
     
@@ -65,10 +62,10 @@ public class RatingControllerTest {
     @Test
     @WithMockUser
     void shouldReturnRatingValidatePageTest() throws Exception {
-        RequestBuilder request = post("/rating/validate").param("moodysRating", ratingDto.getMoodysRating())
-                .param("sandRating", ratingDto.getSandRating())
-                .param("fitchRating", ratingDto.getFitchRating())
-                .param("orderNumber", String.valueOf(ratingDto.getOrderNumber()))
+        RequestBuilder request = post("/rating/validate").param("moodysRating", ratingDto.getMoodys())
+                .param("sandRating", ratingDto.getSand())
+                .param("fitchRating", ratingDto.getFitch())
+                .param("orderNumber", String.valueOf(ratingDto.getOrder()))
                 .with(csrf());
         mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())
@@ -88,10 +85,10 @@ public class RatingControllerTest {
     @Test
     @WithMockUser
     void shouldUpdateRatingWithRatingDtoTest() throws Exception {
-        RequestBuilder request = post("/rating/update/{id}", 1).param("moodysRating", ratingDto.getMoodysRating())
-                .param("sandRating", ratingDto.getSandRating())
-                .param("fitchRating", ratingDto.getFitchRating())
-                .param("orderNumber", String.valueOf(ratingDto.getOrderNumber()))
+        RequestBuilder request = post("/rating/update/{id}", 1).param("moodysRating", ratingDto.getMoodys())
+                .param("sandRating", ratingDto.getSand())
+                .param("fitchRating", ratingDto.getFitch())
+                .param("orderNumber", String.valueOf(ratingDto.getOrder()))
                 .with(csrf());
         mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())

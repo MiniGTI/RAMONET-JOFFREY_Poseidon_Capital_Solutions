@@ -39,7 +39,7 @@ public class BidListController {
      *
      * @return a new BidList.
      */
-    @ModelAttribute("BidListDto")
+    @ModelAttribute("bidListDto")
     public BidListDto bidListDto() {
         return new BidListDto();
     }
@@ -63,7 +63,7 @@ public class BidListController {
      * @return the add.html of the bidList template folder.
      */
     @GetMapping("/bidList/add")
-    public String addBidForm() {
+    public String addBidListForm() {
         return "bidList/add";
     }
     
@@ -76,15 +76,14 @@ public class BidListController {
      * @return redirect on the bidList/list page or stay on the add page if result has an error.
      */
     @PostMapping("/bidList/validate")
-    public String validate(@Valid
-                           @ModelAttribute("bidListDto")
-                           BidListDto bidListDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "redirect:/bidList/add";
+    public String validate(@Valid BidListDto bidListDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            bidListService.save(bidListDto);
+            model.addAttribute("bidListDto", bidListDto);
+            return "redirect:/bidList/list";
         }
-        bidListService.save(bidListDto);
-        model.addAttribute("bidListDto", bidListDto);
-        return "redirect:/bidList/list";
+        
+        return "bidList/add";
     }
     
     /**
@@ -113,17 +112,15 @@ public class BidListController {
      */
     @PostMapping("/bidList/update/{id}")
     public String updateBid(
-            @PathVariable("id") Integer id, @Valid
-    @ModelAttribute("BidListDto")
-    BidListDto bidListDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "redirect:/bidList/update/{id}";
+            @PathVariable("id") Integer id, @Valid BidListDto bidListDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            bidListDto.setId(id);
+            bidListService.update(bidListDto);
+            model.addAttribute("bidListDto", bidListDto);
+            return "redirect:/bidList/list";
         }
         
-        bidListDto.setId(id);
-        bidListService.update(bidListDto);
-        model.addAttribute("bidListDto", bidListDto);
-        return "redirect:/bidList/list";
+        return showUpdateForm(id, model);
     }
     
     /**

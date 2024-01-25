@@ -1,6 +1,5 @@
 package com.nnk.springboot.unitServiceTest;
 
-import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.repositories.RatingRepository;
@@ -85,10 +84,10 @@ void saveWithRatingDtoTest(){
 void shouldUpdateRatingTest(){
     when(ratingRepository.findById(rating.getId())).thenReturn(Optional.of(rating));
     RatingDto update = new RatingDto(rating.getId(),"newMoodysRating", "newSandRating", "newFitchRating", 5);
-    rating.setSandRating(update.getSandRating());
-    rating.setMoodysRating(update.getMoodysRating());
-    rating.setFitchRating(update.getFitchRating());
-    rating.setOrderNumber(update.getOrderNumber());
+    rating.setSand(update.getSand());
+    rating.setMoodys(update.getMoodys());
+    rating.setFitch(update.getFitch());
+    rating.setOrder(update.getOrder());
     when(ratingRepository.save(rating)).thenReturn(rating);
     
     Rating ratingUpdated = ratingService.update(update);

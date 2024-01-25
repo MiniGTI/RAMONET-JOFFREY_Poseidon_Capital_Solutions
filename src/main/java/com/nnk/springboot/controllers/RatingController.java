@@ -77,16 +77,14 @@ public class RatingController {
      * @return redirect on the rating/list page or stay on the add page if result has an error.
      */
     @PostMapping("/rating/validate")
-    public String validate(@Valid
-                           @ModelAttribute("ratingDto")
-                           RatingDto ratingDto, BindingResult result, Model model) {
+    public String validate(@Valid RatingDto ratingDto, BindingResult result, Model model) {
         
-        if(result.hasErrors()) {
-            return "redirect:/rating/add";
+        if(!result.hasErrors()) {
+            ratingService.save(ratingDto);
+            model.addAttribute("ratingDto", ratingDto);
+            return "redirect:/rating/list";
         }
-        ratingService.save(ratingDto);
-        model.addAttribute("ratingDto", ratingDto);
-        return "redirect:/rating/list";
+        return "rating/add";
     }
     
     /**
@@ -116,16 +114,14 @@ public class RatingController {
      */
     @PostMapping("/rating/update/{id}")
     public String updateRating(
-            @PathVariable("id") Integer id, @Valid
-    @ModelAttribute("ratingDto")
-    RatingDto ratingDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "redirect:/rating/update/{id}";
+            @PathVariable("id") Integer id, @Valid RatingDto ratingDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            ratingDto.setId(id);
+            ratingService.update(ratingDto);
+            model.addAttribute("ratingDto", ratingDto);
+            return "redirect:/rating/list";
         }
-        ratingDto.setId(id);
-        ratingService.update(ratingDto);
-        model.addAttribute("ratingDto", ratingDto);
-        return "redirect:/rating/list";
+        return showUpdateForm(id, model);
     }
     
     /**

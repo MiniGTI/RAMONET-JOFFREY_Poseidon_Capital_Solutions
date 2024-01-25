@@ -75,15 +75,13 @@ public class CurvePointController {
      * @return redirect on the curvePoint/list page or stay on the add page if result has an error.
      */
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid
-                           @ModelAttribute("curvePointDto")
-                           CurvePointDto curvePointDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "curvePoint/add";
+    public String validate(@Valid CurvePointDto curvePointDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            curvePointService.save(curvePointDto);
+            model.addAttribute("curvePointDto", curvePointDto);
+            return "redirect:/curvePoint/list";
         }
-        curvePointService.save(curvePointDto);
-        model.addAttribute("curvePointDto", curvePointDto);
-        return "redirect:/curvePoint/list";
+        return "curvePoint/add";
     }
     
     /**
@@ -112,16 +110,14 @@ public class CurvePointController {
      */
     @PostMapping("/curvePoint/update/{id}")
     public String updateCurvePoint(
-            @PathVariable("id") Integer id, @Valid
-    @ModelAttribute("curvePointDto")
-    CurvePointDto curvePointDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
-            return "redirect:/curvePoint/update/{id}";
+            @PathVariable("id") Integer id, @Valid CurvePointDto curvePointDto, BindingResult result, Model model) {
+        if(!result.hasErrors()) {
+            curvePointDto.setId(id);
+            curvePointService.update(curvePointDto);
+            model.addAttribute("curvePointDto", curvePointDto);
+            return "redirect:/curvePoint/list";
         }
-        curvePointDto.setId(id);
-        curvePointService.update(curvePointDto);
-        model.addAttribute("curvePointDto", curvePointDto);
-        return "redirect:/curvePoint/list";
+        return showUpdateForm(id, model);
     }
     
     /**
