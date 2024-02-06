@@ -5,9 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-/**
- * The CurvePoint object.
- */
+
 @Entity
 @Data
 @AllArgsConstructor

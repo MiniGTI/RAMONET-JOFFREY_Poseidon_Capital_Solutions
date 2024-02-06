@@ -10,37 +10,33 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service class for the RuleName object.
- * Perform all business processing between controllers and the RuleNameRepository.
- */
 @Service
 public class RuleNameService {
-    /**
-     * Call of slf4j class.
-     */
+    
     private final static Logger logger = LoggerFactory.getLogger(RuleNameService.class);
     
-    /**
-     * Call the RuleNameRepository to perform CRUDs request to the database.
-     */
     private final RuleNameRepository ruleNameRepository;
     
-    /**
-     * The call constructor.
-     *
-     * @param ruleNameRepository to perform CRUDs request to the database.
-     */
     public RuleNameService(RuleNameRepository ruleNameRepository) {
         this.ruleNameRepository = ruleNameRepository;
     }
     
-    /**
-     * Call the save method of the RuleName repository.
-     *
-     * @param ruleName the rating to save.
-     * @return call the save method of the RuleName repository with the RuleName parsed.
-     */
+    public RuleName getById(Integer id) {
+        Optional<RuleName> optRuleName = ruleNameRepository.findById(id);
+        RuleName ruleName;
+        
+        if(optRuleName.isPresent()) {
+            ruleName = optRuleName.get();
+        } else {
+            throw new RuntimeException("RuleName id: " + id + " not found.");
+        }
+        return ruleName;
+    }
+    
+    public List<RuleName> getAll() {
+        return ruleNameRepository.findAll();
+    }
+    
     public RuleName save(RuleName ruleName) {
         return ruleNameRepository.save(ruleName);
     }
@@ -67,36 +63,6 @@ public class RuleNameService {
                 .sqlStr(ruleNameDto.getSqlStr())
                 .sqlPart(ruleNameDto.getSqlPart())
                 .build());
-    }
-    
-    /**
-     * Call the findById method of the RuleName repository.
-     * <p>
-     * Get the Optional RuleName return by the repository.
-     * Throws an Exception if the RuleName Repository return an empty Optional.
-     *
-     * @param id id of the RuleName object parsed.
-     * @return The RuleName found.
-     */
-    public RuleName getById(Integer id) {
-        Optional<RuleName> optRuleName = ruleNameRepository.findById(id);
-        RuleName ruleName;
-        
-        if(optRuleName.isPresent()) {
-            ruleName = optRuleName.get();
-        } else {
-            throw new RuntimeException("RuleName id: " + id + " not found.");
-        }
-        return ruleName;
-    }
-    
-    /**
-     * Call the findAll method of the RuleName repository.
-     *
-     * @return A List of all RuleName object present in the RuleName table.
-     */
-    public List<RuleName> getAll() {
-        return ruleNameRepository.findAll();
     }
     
     /**
@@ -150,10 +116,6 @@ public class RuleNameService {
         return ruleNameRepository.save(ruleNameUpdated);
     }
     
-    /**
-     * Call the deleteById method of the RuleName repository.
-     * Used to delete the RuleName in the /ruleName/list.html.
-     */
     public void deleteById(Integer id) {
         ruleNameRepository.deleteById(id);
     }

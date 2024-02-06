@@ -29,7 +29,7 @@ public class CurvePointServiceTest {
     @MockBean
     private CurvePointRepository curvePointRepository;
     
-    private final CurvePoint curvePoint = new CurvePoint(1, 10, LocalDate.now(), 10d, 35, LocalDate.now());
+    private final CurvePoint curvePoint = new CurvePoint(1, 10, LocalDate.now(), 10d, 35.0, LocalDate.now());
    private final List<CurvePoint> curvePoints = new ArrayList<>(List.of(curvePoint, new CurvePoint()));
     private final CurvePointDto curvePointDto = CurvePointDto.builder()
             .term(10d)

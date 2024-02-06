@@ -3,12 +3,14 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -20,25 +22,16 @@ import java.util.List;
  */
 @Controller
 public class BidListController {
-    /**
-     * Call the BidListService to apply business treatments before interact with the BidListRepository.
-     */
+    
     private final BidListService bidListService;
     
-    /**
-     * The class constructor.
-     *
-     * @param bidListService to apply business treatments and interact with the BidListRepository.
-     */
-    public BidListController(BidListService bidListService) {
+    private final UserService userService;
+    
+    public BidListController(BidListService bidListService, UserService userService) {
         this.bidListService = bidListService;
+        this.userService = userService;
     }
     
-    /**
-     * Model to get data from add and update form.
-     *
-     * @return a new BidList.
-     */
     @ModelAttribute("bidListDto")
     public BidListDto bidListDto() {
         return new BidListDto();
@@ -47,13 +40,16 @@ public class BidListController {
     /**
      * To get and display the BidList list.
      *
-     * @param model to parse data to the view.
+     * @param principal the user authenticated.
+     * @param model     to parse data to the view.
      * @return the list.html of the bidList template folder.
      */
     @RequestMapping("/bidList/list")
-    public String bidListList(Model model) {
+    public String bidListList(Principal principal, Model model) {
+        String fullname = userService.getUserName(principal);
         List<BidList> bidLists = bidListService.getAll();
         model.addAttribute("bidLists", bidLists);
+        model.addAttribute("fullname", fullname);
         return "bidList/list";
     }
     

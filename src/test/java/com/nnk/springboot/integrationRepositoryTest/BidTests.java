@@ -22,7 +22,7 @@ public class BidTests {
     @Autowired
     private TestEntityManager entityManager;
     
-   private final BidList bidList = BidList.builder()
+    private final BidList bidList = BidList.builder()
             .account("Account Test")
             .type("Type Test")
             .bidQuantity(10d)
@@ -31,7 +31,7 @@ public class BidTests {
     public void bidListSaveTest() {
         BidList result = bidListRepository.save(bidList);
         
-        assertEquals(bidList, result);
+        assertEquals(result, entityManager.find(BidList.class, result.getId()));
     }
     
     @Test

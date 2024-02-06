@@ -1,8 +1,10 @@
 package com.nnk.springboot.controller;
 
 import com.nnk.springboot.domain.Rating;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.services.RatingService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +35,8 @@ public class RatingControllerTest {
     
     @MockBean
     private RatingService ratingService;
-    
+    @MockBean
+    private UserService userService;
     private final Rating rating = new Rating(1, "moodys", "sand", "fitch", 50);
     private final RatingDto ratingDto = RatingDto.builder()
             .moodys("newMoodys")
@@ -41,14 +45,14 @@ public class RatingControllerTest {
             .order(55)
             .build();
     private final List<Rating> ratings = new ArrayList<>(List.of(rating, new Rating()));
-    
     @Test
     @WithMockUser
     void shouldReturnRatingListPageTest() throws Exception {
         when(ratingService.getAll()).thenReturn(ratings);
-        
+        when(userService.getUserName(any())).thenReturn("fullname");
         mvc.perform(get("/rating/list"))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("fullname", equalTo("fullname")))
                 .andExpect(model().attribute("ratings", hasSize(2)));
     }
     
@@ -63,9 +67,9 @@ public class RatingControllerTest {
     @WithMockUser
     void shouldReturnRatingValidatePageTest() throws Exception {
         RequestBuilder request = post("/rating/validate").param("moodysRating", ratingDto.getMoodys())
-                .param("sandRating", ratingDto.getSand())
-                .param("fitchRating", ratingDto.getFitch())
-                .param("orderNumber", String.valueOf(ratingDto.getOrder()))
+                .param("sand", ratingDto.getSand())
+                .param("fitch", ratingDto.getFitch())
+                .param("order", String.valueOf(ratingDto.getOrder()))
                 .with(csrf());
         mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())
@@ -79,16 +83,16 @@ public class RatingControllerTest {
         
         mvc.perform(get("/rating/update/{id}", 1))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("rating", hasProperty("moodysRating", is("moodys"))));
+                .andExpect(model().attribute("rating", hasProperty("moodys", is("moodys"))));
     }
     
     @Test
     @WithMockUser
     void shouldUpdateRatingWithRatingDtoTest() throws Exception {
         RequestBuilder request = post("/rating/update/{id}", 1).param("moodysRating", ratingDto.getMoodys())
-                .param("sandRating", ratingDto.getSand())
-                .param("fitchRating", ratingDto.getFitch())
-                .param("orderNumber", String.valueOf(ratingDto.getOrder()))
+                .param("sand", ratingDto.getSand())
+                .param("fitch", ratingDto.getFitch())
+                .param("order", String.valueOf(ratingDto.getOrder()))
                 .with(csrf());
         mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())
