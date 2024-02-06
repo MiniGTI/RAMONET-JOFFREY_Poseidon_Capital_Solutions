@@ -1,8 +1,10 @@
 package com.nnk.springboot.controller;
 
 import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.RuleNameDto;
 import com.nnk.springboot.services.RuleNameService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,8 @@ public class RuleNameControllerTest {
     
     @MockBean
     private RuleNameService ruleNameService;
-    
+    @MockBean
+    private UserService userService;
     @Autowired
     private MockMvc mvc;
     
@@ -37,14 +41,14 @@ public class RuleNameControllerTest {
     private final List<RuleName> ruleNames = new ArrayList<>(List.of(ruleName, new RuleName()));
     private final RuleNameDto ruleNameDto =
             new RuleNameDto(1, "newName", "newDescritpion", "newJson", "newTemplate", "newSqlStr", "newSqlPart");
-    
     @Test
     @WithMockUser
     void shouldReturnRuleNameListPageTest() throws Exception {
         when(ruleNameService.getAll()).thenReturn(ruleNames);
-        
+        when(userService.getUserName(any())).thenReturn("fullname");
         mvc.perform(get("/ruleName/list"))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("fullname",equalTo("fullname")))
                 .andExpect(model().attribute("ruleNames", hasSize(2)));
     }
     

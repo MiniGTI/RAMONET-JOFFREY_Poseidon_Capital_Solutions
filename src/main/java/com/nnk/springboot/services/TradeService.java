@@ -10,37 +10,33 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service class for the Trade object.
- * Perform all business processing between controllers and the TradeRepository.
- */
 @Service
 public class TradeService {
-    /**
-     * Call of slf4j class.
-     */
+    
     private final static Logger logger = LoggerFactory.getLogger(TradeService.class);
     
-    /**
-     * Call the TradeRepository to perform CRUDs request to the database.
-     */
     private final TradeRepository tradeRepository;
     
-    /**
-     * The call constructor.
-     *
-     * @param tradeRepository to perform CRUDs request to the database.
-     */
     public TradeService(TradeRepository tradeRepository) {
         this.tradeRepository = tradeRepository;
     }
     
-    /**
-     * Call the save method of the Trade repository.
-     *
-     * @param trade the Trade to save.
-     * @return call the save method of the Trade repository with the Trade parsed.
-     */
+    public Trade getById(Integer id) {
+        Optional<Trade> optTrade = tradeRepository.findById(id);
+        Trade trade;
+        
+        if(optTrade.isPresent()) {
+            trade = optTrade.get();
+        } else {
+            throw new RuntimeException("Trade id: " + id + " not found.");
+        }
+        return trade;
+    }
+    
+    public List<Trade> getAll() {
+        return tradeRepository.findAll();
+    }
+    
     public Trade save(Trade trade) {
         return tradeRepository.save(trade);
     }
@@ -63,36 +59,6 @@ public class TradeService {
                 .type(tradeDto.getType())
                 .buyQuantity(tradeDto.getBuyQuantity())
                 .build());
-    }
-    
-    /**
-     * Call the findById method of the Trade repository.
-     * <p>
-     * Get the Optional Trade return by the repository.
-     * Throws an Exception if the Trade Repository return an empty Optional.
-     *
-     * @param id id of the Trade object parsed.
-     * @return The Trade found.
-     */
-    public Trade getById(Integer id) {
-        Optional<Trade> optTrade = tradeRepository.findById(id);
-        Trade trade;
-        
-        if(optTrade.isPresent()) {
-            trade = optTrade.get();
-        } else {
-            throw new RuntimeException("Trade id: " + id + " not found.");
-        }
-        return trade;
-    }
-    
-    /**
-     * Call the findAll method of the Trade repository.
-     *
-     * @return A List of all Trade object present in the Trade table.
-     */
-    public List<Trade> getAll() {
-        return tradeRepository.findAll();
     }
     
     /**
@@ -122,16 +88,13 @@ public class TradeService {
         if(tradeDto.getBuyQuantity() != null) {
             tradeUpdated.setBuyQuantity(tradeDto.getBuyQuantity());
         }
-        logger.debug("The tradeUpdated attributes: id: " + tradeUpdated.getId() + " account: " + tradeUpdated.getAccount() +
-                " type: " + tradeUpdated.getType() + " buyQuantity: " + tradeUpdated.getBuyQuantity());
+        logger.debug(
+                "The tradeUpdated attributes: id: " + tradeUpdated.getId() + " account: " + tradeUpdated.getAccount() +
+                        " type: " + tradeUpdated.getType() + " buyQuantity: " + tradeUpdated.getBuyQuantity());
         
         return tradeRepository.save(tradeUpdated);
     }
     
-    /**
-     * Call the deleteById method of the Trade repository.
-     * Used to delete the Trade in the /trade/list.html.
-     */
     public void deleteById(Integer id) {
         tradeRepository.deleteById(id);
     }

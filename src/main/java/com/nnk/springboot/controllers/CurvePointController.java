@@ -3,12 +3,14 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CurvePointDto;
 import com.nnk.springboot.services.CurvePointService;
+import com.nnk.springboot.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -19,25 +21,16 @@ import java.util.List;
  */
 @Controller
 public class CurvePointController {
-    /**
-     * Call the CurvePointService to apply business treatments before interact with the CurvePointRepository.
-     */
+    
     private final CurvePointService curvePointService;
     
-    /**
-     * The class constructor.
-     *
-     * @param curvePointService to apply business treatments and interact with the CurvePointRepository.
-     */
-    public CurvePointController(CurvePointService curvePointService) {
+    private final UserService userService;
+    
+    public CurvePointController(CurvePointService curvePointService, UserService userService) {
         this.curvePointService = curvePointService;
+        this.userService = userService;
     }
     
-    /**
-     * Model to get data from add and update form.
-     *
-     * @return a new CurvePoint.
-     */
     @ModelAttribute("curvePointDto")
     public CurvePointDto curvePointDto() {
         return new CurvePointDto();
@@ -46,13 +39,16 @@ public class CurvePointController {
     /**
      * To get and display the CurvePoint list.
      *
-     * @param model to parse data to the view.
+     * @param principal the user authenticated.
+     * @param model     to parse data to the view.
      * @return the list.html of the curvePoint template folder.
      */
     @RequestMapping("/curvePoint/list")
-    public String curvePointList(Model model) {
+    public String curvePointList(Principal principal, Model model) {
         List<CurvePoint> curvePoints = curvePointService.getAll();
+        String fullname = userService.getUserName(principal);
         model.addAttribute("curvePoints", curvePoints);
+        model.addAttribute("fullname", fullname);
         return "curvePoint/list";
     }
     

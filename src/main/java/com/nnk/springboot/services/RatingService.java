@@ -10,38 +10,33 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service class for the Rating object.
- * Perform all business processing between controllers and the RatingRepository.
- */
 @Service
 public class RatingService {
     
-    /**
-     * Call of slf4j class.
-     */
     private final static Logger logger = LoggerFactory.getLogger(RatingService.class);
     
-    /**
-     * Call the RatingRepository to perform CRUDs request to the database.
-     */
     private final RatingRepository ratingRepository;
     
-    /**
-     * The call constructor.
-     *
-     * @param ratingRepository to perform CRUDs request to the database.
-     */
     public RatingService(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
     }
     
-    /**
-     * Call the save method of the Rating repository.
-     *
-     * @param rating the rating to save.
-     * @return call the save method of the Rating repository with the Rating parsed.
-     */
+    public Rating getById(int id) {
+        Rating rating;
+        Optional<Rating> optRating = ratingRepository.findById(id);
+        
+        if(optRating.isPresent()) {
+            rating = optRating.get();
+        } else {
+            throw new RuntimeException("Rating id: " + id + " not found.");
+        }
+        return rating;
+    }
+    
+    public List<Rating> getAll() {
+        return ratingRepository.findAll();
+    }
+    
     public Rating save(Rating rating) {
         return ratingRepository.save(rating);
     }
@@ -78,10 +73,9 @@ public class RatingService {
      * @return call the save method of the Rating repository with the Rating updated.
      */
     public Rating update(RatingDto ratingDto) {
-        logger.debug(
-                "Informations parsed to update are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
-                        ratingDto.getSand() + " fitchRating: " + ratingDto.getFitch() + " orderNumber: " +
-                        ratingDto.getOrder());
+        logger.debug("Informations parsed to update are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
+                ratingDto.getSand() + " fitchRating: " + ratingDto.getFitch() + " orderNumber: " +
+                ratingDto.getOrder());
         
         Rating ratingUpdated = getById(ratingDto.getId());
         
@@ -101,45 +95,11 @@ public class RatingService {
             ratingUpdated.setOrder(ratingDto.getOrder());
         }
         logger.debug("The ratingUpdated attributes: id: " + ratingUpdated.getId() + " moodysRating: " +
-                ratingDto.getMoodys() + " sandRating: " + ratingDto.getSand() + "fitchRating: " +
-                ratingDto.getFitch() + " orderNumber: " + ratingDto.getOrder());
+                ratingDto.getMoodys() + " sandRating: " + ratingDto.getSand() + "fitchRating: " + ratingDto.getFitch() +
+                " orderNumber: " + ratingDto.getOrder());
         return ratingRepository.save(ratingUpdated);
     }
     
-    /**
-     * Call the findById method of the Rating repository.
-     * <p>
-     * Get the Optional Rating return by the repository.
-     * Throws an Exception if the Rating Repository return an empty Optional.
-     *
-     * @param id id of the Rating object parsed.
-     * @return The Rating found.
-     */
-    public Rating getById(int id) {
-        Rating rating;
-        Optional<Rating> optRating = ratingRepository.findById(id);
-        
-        if(optRating.isPresent()) {
-            rating = optRating.get();
-        } else {
-            throw new RuntimeException("Rating id: " + id + " not found.");
-        }
-        return rating;
-    }
-    
-    /**
-     * Call the findAll method of the Rating repository.
-     *
-     * @return A List of all Rating object present in the rating table.
-     */
-    public List<Rating> getAll() {
-        return ratingRepository.findAll();
-    }
-    
-    /**
-     * Call the deleteById method of the Rating repository.
-     * Used to delete the Rating in the /rating/list.html.
-     */
     public void deleteById(int id) {
         ratingRepository.deleteById(id);
     }

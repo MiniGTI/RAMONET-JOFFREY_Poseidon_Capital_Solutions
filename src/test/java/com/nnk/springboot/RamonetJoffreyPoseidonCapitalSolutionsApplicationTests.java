@@ -1,6 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.controllers.LoginController;
+import com.nnk.springboot.controllers.ErrorController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +11,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class RamonetJoffreyPoseidonCapitalSolutionsApplicationTests {
     
     @Autowired
-    private LoginController loginController;
+    private ErrorController errorController;
     @Test
     void contextLoads() {
         
-        assertThat(loginController).isNotNull();
+        assertThat(errorController).isNotNull();
     }
 }

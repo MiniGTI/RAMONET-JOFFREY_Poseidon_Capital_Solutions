@@ -1,8 +1,10 @@
 package com.nnk.springboot.controller;
 
 import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.TradeDto;
 import com.nnk.springboot.services.TradeService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,12 +15,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,6 +36,8 @@ public class TradeControllerTest {
     
     @MockBean
     private TradeService tradeService;
+    @MockBean
+    private UserService userService;
     
     private final Trade trade = Trade.builder()
             .account("account")
@@ -45,15 +49,16 @@ public class TradeControllerTest {
             .type("type")
             .buyQuantity(20.5)
             .build();
-private final List<Trade> trades = new ArrayList<>(List.of(trade, new Trade()));
+    private final List<Trade> trades = new ArrayList<>(List.of(trade, new Trade()));
     
     @Test
     @WithMockUser
     void shouldReturnTradeListPageTest() throws Exception {
         when(tradeService.getAll()).thenReturn(trades);
-        
+        when(userService.getUserName(any())).thenReturn("fullname");
         mvc.perform(get("/trade/list"))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("fullname", equalTo("fullname")))
                 .andExpect(model().attribute("trades", hasSize(2)));
     }
     
@@ -70,7 +75,6 @@ private final List<Trade> trades = new ArrayList<>(List.of(trade, new Trade()));
         RequestBuilder request = post("/trade/validate").param("account", tradeDto.getAccount())
                 .param("type", tradeDto.getType())
                 .param("buyQuantity", String.valueOf(tradeDto.getBuyQuantity()))
-                
                 .with(csrf());
         mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())

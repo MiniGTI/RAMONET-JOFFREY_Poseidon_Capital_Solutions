@@ -3,7 +3,9 @@ package com.nnk.springboot.controller;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,7 +34,8 @@ public class BidListControllerTest {
     
     @MockBean
     private BidListService bidListService;
-    
+    @MockBean
+    private UserService userService;
     private final BidList bidList = BidList.builder()
             .id(1)
             .account("account")
@@ -46,13 +48,15 @@ public class BidListControllerTest {
             .bidQuantity(20.5)
             .build();
     private final List<BidList> bidLists = new ArrayList<>(List.of(bidList, new BidList()));
-    
+
     @Test
     @WithMockUser
     void shouldReturnBidListListPageTest() throws Exception {
         when(bidListService.getAll()).thenReturn(bidLists);
+        when(userService.getUserName(any())).thenReturn("fullname");
         mvc.perform(get("/bidList/list"))
                 .andExpect(status().isOk())
+                .andExpect(model().attribute("fullname", equalTo("fullname")))
                 .andExpect(model().attribute("bidLists", hasSize(2)));
     }
     

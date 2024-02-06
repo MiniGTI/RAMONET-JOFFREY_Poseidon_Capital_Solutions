@@ -3,12 +3,14 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.dto.TradeDto;
 import com.nnk.springboot.services.TradeService;
+import com.nnk.springboot.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -19,25 +21,16 @@ import java.util.List;
  */
 @Controller
 public class TradeController {
-    /**
-     * Call the TradeService to apply business treatments before interact with the TradeRepository.
-     */
+    
     private final TradeService tradeService;
     
-    /**
-     * The class constructor.
-     *
-     * @param tradeService to apply business treatments and interact with the TradeRepository.
-     */
-    public TradeController(TradeService tradeService) {
+    private final UserService userService;
+    
+    public TradeController(TradeService tradeService, UserService userService) {
         this.tradeService = tradeService;
+        this.userService = userService;
     }
     
-    /**
-     * Model to get data from add and update form.
-     *
-     * @return a new Trade.
-     */
     @ModelAttribute("tradeDto")
     public TradeDto tradeDto() {
         return new TradeDto();
@@ -46,13 +39,17 @@ public class TradeController {
     /**
      * To get and display the Trade list.
      *
-     * @param model to parse data to the view.
+     * @param principal the user authenticated.
+     * @param model     to parse data to the view.
      * @return the list.html of the trade template folder.
      */
     @RequestMapping("/trade/list")
-    public String home(Model model) {
+    public String home(Principal principal, Model model) {
         List<Trade> trades = tradeService.getAll();
+        String fullname = userService.getUserName(principal);
+        
         model.addAttribute("trades", trades);
+        model.addAttribute("fullname", fullname);
         return "trade/list";
     }
     

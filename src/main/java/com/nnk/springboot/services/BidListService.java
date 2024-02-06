@@ -10,40 +10,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service class for the BidList object.
- * Perform all business processing between controllers and the BidListRepository.
- */
 @Service
 public class BidListService {
     
-    /**
-     * Call of slf4j class.
-     */
     private final static Logger logger = LoggerFactory.getLogger(RatingService.class);
-    /**
-     * Call the BidListRepository to perform CRUDs request to the database.
-     */
+    
     private final BidListRepository bidListRepository;
     
-    /**
-     * The call constructor.
-     *
-     * @param bidListRepository to perform CRUDs request to the database.
-     */
     public BidListService(BidListRepository bidListRepository) {
         this.bidListRepository = bidListRepository;
     }
     
-    /**
-     * Call the findById method of the BidList repository.
-     * <p>
-     * Get the Optional BidList return by the repository.
-     * Throws an Exception if the BidList Repository return an empty Optional.
-     *
-     * @param id id of the BidList object parsed.
-     * @return The BidList found.
-     */
     public BidList getById(Integer id) {
         Optional<BidList> optBidList = bidListRepository.findById(id);
         BidList bidList;
@@ -55,21 +32,10 @@ public class BidListService {
         return bidList;
     }
     
-    /**
-     * Call the findAll method of the BidList repository.
-     *
-     * @return A List of all BidList object present in the BidList table.
-     */
     public List<BidList> getAll() {
         return bidListRepository.findAll();
     }
     
-    /**
-     * Call the save method of the BidList repository.
-     *
-     * @param bidList the BidList to save.
-     * @return call the save method of the BidList repository with the BidList parsed.
-     */
     public BidList save(BidList bidList) {
         return bidListRepository.save(bidList);
     }
@@ -127,10 +93,6 @@ public class BidListService {
         return bidListRepository.save(bidListToUpdate);
     }
     
-    /**
-     * Call the deleteById method of the BidList repository.
-     * Used to delete the BidList in the /bidList/list.html.
-     */
     public void deleteById(Integer id) {
         bidListRepository.deleteById(id);
     }

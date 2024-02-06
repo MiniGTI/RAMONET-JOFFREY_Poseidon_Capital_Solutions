@@ -3,14 +3,15 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.services.RatingService;
+import com.nnk.springboot.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller class for the Rating folder.
@@ -21,25 +22,15 @@ import java.util.Optional;
 @Controller
 public class RatingController {
     
-    /**
-     * Call the RatingService to apply business treatments before interact with the RatingRepository.
-     */
     private final RatingService ratingService;
     
-    /**
-     * The class constructor.
-     *
-     * @param ratingService to apply business treatments and interact with the RatingRepository.
-     */
-    public RatingController(RatingService ratingService) {
+    private final UserService userService;
+    
+    public RatingController(RatingService ratingService, UserService userService) {
         this.ratingService = ratingService;
+        this.userService = userService;
     }
     
-    /**
-     * Model to get data from add and update form.
-     *
-     * @return a new Rating.
-     */
     @ModelAttribute("ratingDto")
     public RatingDto ratingDto() {
         return new RatingDto();
@@ -48,13 +39,16 @@ public class RatingController {
     /**
      * To get and display the Rating list.
      *
-     * @param model to parse data to the view.
+     * @param principal the user authenticated.
+     * @param model     to parse data to the view.
      * @return the list.html of the rating template folder.
      */
     @RequestMapping("/rating/list")
-    public String ratingList(Model model) {
+    public String ratingList(Principal principal, Model model) {
         List<Rating> ratings = ratingService.getAll();
+        String fullname = userService.getUserName(principal);
         model.addAttribute("ratings", ratings);
+        model.addAttribute("fullname", fullname);
         return "rating/list";
     }
     

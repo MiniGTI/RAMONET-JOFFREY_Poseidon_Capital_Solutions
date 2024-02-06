@@ -3,12 +3,14 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.dto.RuleNameDto;
 import com.nnk.springboot.services.RuleNameService;
+import com.nnk.springboot.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -19,25 +21,16 @@ import java.util.List;
  */
 @Controller
 public class RuleNameController {
-    /**
-     * Call the RuleNameService to apply business treatments before interact with the RuleNameRepository.
-     */
+    
     private final RuleNameService ruleNameService;
     
-    /**
-     * The class constructor.
-     *
-     * @param ruleNameService to apply business treatments and interact with the RuleNameRepository.
-     */
-    public RuleNameController(RuleNameService ruleNameService) {
+    private final UserService userService;
+    
+    public RuleNameController(RuleNameService ruleNameService, UserService userService) {
         this.ruleNameService = ruleNameService;
+        this.userService = userService;
     }
     
-    /**
-     * Model to get data from add and update form.
-     *
-     * @return a new RuleName.
-     */
     @ModelAttribute("ruleNameDto")
     public RuleNameDto ruleNameDto() {
         return new RuleNameDto();
@@ -46,13 +39,16 @@ public class RuleNameController {
     /**
      * To get and display the RuleName list.
      *
-     * @param model to parse data to the view.
+     * @param principal the user authenticated.
+     * @param model     to parse data to the view.
      * @return the list.html of the ruleName template folder.
      */
     @RequestMapping("/ruleName/list")
-    public String ruleNameList(Model model) {
+    public String ruleNameList(Principal principal, Model model) {
         List<RuleName> ruleNames = ruleNameService.getAll();
+        String fullname = userService.getUserName(principal);
         model.addAttribute("ruleNames", ruleNames);
+        model.addAttribute("fullname", fullname);
         return "ruleName/list";
     }
     

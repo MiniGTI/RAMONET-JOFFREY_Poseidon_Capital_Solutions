@@ -11,38 +11,35 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service class for the CurvePoint object.
- * Perform all business processing between controllers and the CurvePointRepository.
- */
+
 @Service
 public class CurvePointService {
     
-    
-    /**
-     * Call of slf4j class.
-     */
     private final static Logger logger = LoggerFactory.getLogger(CurvePointService.class);
-    /**
-     * Call the CurvePointRepository to perform CRUDs request to the database.
-     */
+    
     private final CurvePointRepository curvePointRepository;
     
-    /**
-     * The call constructor.
-     *
-     * @param curvePointRepository to perform CRUDs request to the database.
-     */
     public CurvePointService(CurvePointRepository curvePointRepository) {
         this.curvePointRepository = curvePointRepository;
     }
     
-    /**
-     * Call the save method of the CurvePoint repository.
-     *
-     * @param curvePoint the CurvePoint to save.
-     * @return call the save method of the CurvePoint repository with the CurvePoint parsed.
-     */
+    public CurvePoint getById(Integer id) {
+        Optional<CurvePoint> optCurvePoint = curvePointRepository.findById(id);
+        CurvePoint curvePoint;
+        
+        if(optCurvePoint.isPresent()) {
+            curvePoint = optCurvePoint.get();
+        } else {
+            throw new RuntimeException("CurvePoint id: " + id + " not found.");
+        }
+        
+        return curvePoint;
+    }
+    
+    public List<CurvePoint> getAll() {
+        return curvePointRepository.findAll();
+    }
+    
     public CurvePoint save(CurvePoint curvePoint) {
         return curvePointRepository.save(curvePoint);
     }
@@ -65,37 +62,6 @@ public class CurvePointService {
                 .value(curvePointDto.getValue())
                 .creationDate(LocalDate.now())
                 .build());
-    }
-    
-    /**
-     * Call the findById method of the CurvePoint repository.
-     * <p>
-     * Get the Optional CurvePoint return by the repository.
-     * Throws an Exception if the CurvePoint Repository return an empty Optional.
-     *
-     * @param id id of the CurvePoint object parsed.
-     * @return The CurvePoint found.
-     */
-    public CurvePoint getById(Integer id) {
-        Optional<CurvePoint> optCurvePoint = curvePointRepository.findById(id);
-        CurvePoint curvePoint;
-        
-        if(optCurvePoint.isPresent()) {
-            curvePoint = optCurvePoint.get();
-        } else {
-            throw new RuntimeException("CurvePoint id: " + id + " not found.");
-        }
-        
-        return curvePoint;
-    }
-    
-    /**
-     * Call the findAll method of the CurvePoint repository.
-     *
-     * @return A List of all CurvePoint object present in the CurvePoint table.
-     */
-    public List<CurvePoint> getAll() {
-        return curvePointRepository.findAll();
     }
     
     /**
@@ -127,10 +93,6 @@ public class CurvePointService {
         return curvePointRepository.save(curvePointUpdated);
     }
     
-    /**
-     * Call the deleteById method of the CurvePoint repository.
-     * Used to delete the CurvePoint in the /curve/list.html.
-     */
     public void deleteById(Integer id) {
         curvePointRepository.deleteById(id);
     }
