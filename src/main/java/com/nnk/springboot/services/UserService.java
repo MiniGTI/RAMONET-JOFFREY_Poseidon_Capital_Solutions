@@ -13,9 +13,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -64,22 +62,23 @@ public class UserService {
      * Verify if the Principal is an instance of OAuth2AuthenticatonToken, to get the name attribute if it is.
      * If the authentication is a basic and not an OAuth2 authentication, get the name of the principal.
      *
+     * Implementation test of the new Switch pattern of JAVA 21.
+     *
      * @param principal the user Authenticated
      * @return the username.
      */
-    public String getUserName(Principal principal) {
-        String fullname = "";
-        
-        if(principal instanceof OAuth2AuthenticationToken) {
-            
-            OAuth2AuthenticationToken authToken = ((OAuth2AuthenticationToken) principal);
-            Map<String, Object> userAttributes = (authToken.getPrincipal()).getAttributes();
-            fullname = (String) userAttributes.get("name");
-        } else {
-            fullname = principal.getName();
+    public String getUserName(Object principal) {
+
+        switch(principal){
+            case OAuth2AuthenticationToken authToken -> {
+                Map<String, Object> userAttributes = (authToken.getPrincipal()).getAttributes();
+                return userAttributes.get("name").toString();
+            }
+            case Principal auth -> {
+                return auth.getName();
+            }
+            default -> throw new UsernameNotFoundException("User not found.");
         }
-        
-        return fullname;
     }
     
     
