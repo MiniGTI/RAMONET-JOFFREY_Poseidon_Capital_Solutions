@@ -2,11 +2,13 @@ package com.nnk.springboot.configuration;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,10 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     
     /**
      * Method called by loadUserByUsername SpringSecurityConfig method.
+     * If a user is found, create a new UserDetails with the user's parameters.
+     * The userDetails role is build by the getGrantedAuthorities.
      *
+     * @see #getGrantedAuthorities(String role)
+     * @see SpringSecurityConfig#authenticationManager(HttpSecurity, BCryptPasswordEncoder)
      * @param username of the user who wishes to authenticate.
      * @return a UserDetails to become the Principal.
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException -if Optional<User> is empty.
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -7,7 +7,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 /**
  * Class to input a default admin and user account.
  * If no account with role = ADMIN and USER present in the table, insert new user(s).
