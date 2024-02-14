@@ -1,14 +1,19 @@
 package com.nnk.springboot.unitServiceTest;
 
+import com.nnk.springboot.configuration.Data;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.dto.RuleNameDto;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import com.nnk.springboot.services.RuleNameService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-
 public class RuleNameServiceTest {
     
     @Autowired
@@ -28,7 +32,11 @@ public class RuleNameServiceTest {
     
     @MockBean
     private RuleNameRepository ruleNameRepository;
-    
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private Data data;
+
     private final RuleName ruleName = new RuleName(1, "name", "description", "json", "template", "sqlStr", "sqlPart");
     private final RuleNameDto ruleNameDto = RuleNameDto.builder()
             .name("Name")

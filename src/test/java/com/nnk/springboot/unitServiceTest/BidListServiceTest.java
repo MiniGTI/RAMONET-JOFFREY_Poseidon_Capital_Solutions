@@ -1,9 +1,11 @@
 package com.nnk.springboot.unitServiceTest;
 
+import com.nnk.springboot.configuration.Data;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,11 @@ public class BidListServiceTest {
     
     @MockBean
     private BidListRepository bidListRepository;
-    
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private Data data;
+
     private final BidList bidList = BidList.builder()
             .id(1)
             .account("account")
