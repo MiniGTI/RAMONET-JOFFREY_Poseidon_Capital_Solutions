@@ -8,9 +8,9 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 What things you need to install the software and how to install them.
 
-    - Java 21.0.1
-    - Maven 3.6.3
-    - Mysql 8.0.35
+    - Java 21.0.1  
+    - Maven 3.6.3  
+    - Mysql 8.0.35  
 
 ### Running Application
 Post installation of MySQL, Java and Maven, you must create the database. 
@@ -31,16 +31,16 @@ Next, copy:
 
 `USE 'demo'`
 
-Open the project in your favorite IDE and run the application file at the root of the springboot folder.
+Open the project in your favorite IDE and run the application file at the root of the springboot folder.  
 The application creates tables and injects a basic ADMIN and USER accounts into them.
 
-ADMIN account:
-login : `sudo`
-pass : `toDelete1+`
+ADMIN account:  
+login : `sudo`  
+pass : `toDelete1+`  
 
-USER account:
-login : `user`
-pass : `toDelete1+`
+USER account:  
+login : `user`  
+pass : `toDelete1+`  
 
 Naturally, for security reasons, these two accounts must be deleted once a new ADMIN account is created.
 
