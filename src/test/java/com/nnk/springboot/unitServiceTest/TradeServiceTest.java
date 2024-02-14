@@ -1,5 +1,6 @@
 package com.nnk.springboot.unitServiceTest;
 
+import com.nnk.springboot.configuration.Data;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.dto.RatingDto;
@@ -8,6 +9,7 @@ import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.repositories.TradeRepository;
 import com.nnk.springboot.services.RatingService;
 import com.nnk.springboot.services.TradeService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,11 @@ public class TradeServiceTest {
     
     @MockBean
     private TradeRepository tradeRepository;
-    
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private Data data;
+
     private final Trade trade = Trade.builder()
             .id(1)
             .account("account")

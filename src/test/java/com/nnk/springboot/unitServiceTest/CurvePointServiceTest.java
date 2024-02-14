@@ -1,9 +1,11 @@
 package com.nnk.springboot.unitServiceTest;
 
+import com.nnk.springboot.configuration.Data;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CurvePointDto;
 import com.nnk.springboot.repositories.CurvePointRepository;
 import com.nnk.springboot.services.CurvePointService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,11 @@ public class CurvePointServiceTest {
     
     @MockBean
     private CurvePointRepository curvePointRepository;
-    
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private Data data;
+
     private final CurvePoint curvePoint = new CurvePoint(1, 10, LocalDate.now(), 10d, 35.0, LocalDate.now());
    private final List<CurvePoint> curvePoints = new ArrayList<>(List.of(curvePoint, new CurvePoint()));
     private final CurvePointDto curvePointDto = CurvePointDto.builder()
