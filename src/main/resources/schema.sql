@@ -1,12 +1,12 @@
 
 CREATE TABLE bid_list (
-  bid_list_id tinyint(4) NOT NULL AUTO_INCREMENT,
+  id tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
-  bid_quantity DOUBLE,
-  ask_quantity DOUBLE,
-  bid DOUBLE ,
-  ask DOUBLE,
+  bid_quantity DECIMAL(14,4),
+  ask_quantity DECIMAL(14,4),
+  bid DECIMAL(14,4),
+  ask DECIMAL(14,4),
   benchmark VARCHAR(125),
   bid_list_date TIMESTAMP,
   commentary VARCHAR(125),
@@ -23,17 +23,17 @@ CREATE TABLE bid_list (
   source_list_id VARCHAR(125),
   side VARCHAR(125),
 
-  PRIMARY KEY (bid_list_id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE trade (
-  trade_id tinyint(4) NOT NULL AUTO_INCREMENT,
+  id tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
-  buy_quantity DOUBLE,
-  sell_quantity DOUBLE,
-  buy_price DOUBLE ,
-  sell_price DOUBLE,
+  buy_quantity DECIMAL(14,4),
+  sell_quantity DECIMAL(14,4),
+  buy_price DECIMAL(14,4),
+  sell_price DECIMAL(14,4),
   trade_date TIMESTAMP,
   security VARCHAR(125),
   status VARCHAR(10),
@@ -49,15 +49,15 @@ CREATE TABLE trade (
   source_list_id VARCHAR(125),
   side VARCHAR(125),
 
-  PRIMARY KEY (trade_id)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE curve_point (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
   curve_id tinyint,
   as_of_date TIMESTAMP,
-  term DOUBLE ,
-  value DOUBLE ,
+  term DECIMAL(14,4),
+  value DECIMAL(14,4),
   creation_date TIMESTAMP ,
 
   PRIMARY KEY (id)
@@ -65,10 +65,10 @@ CREATE TABLE curve_point (
 
 CREATE TABLE rating (
   id tinyint(4) NOT NULL AUTO_INCREMENT,
-  moodys_rating VARCHAR(125),
-  sand_rating VARCHAR(125),
-  fitch_rating VARCHAR(125),
-  order_number tinyint,
+  moodys VARCHAR(125),
+  sand VARCHAR(125),
+  fitch VARCHAR(125),
+  order_rating tinyint,
 
   PRIMARY KEY (id)
 );
@@ -94,6 +94,3 @@ CREATE TABLE users (
 
   PRIMARY KEY (id)
 );
-
-insert into users(fullname, username, password, role) values('Administrator', 'admin', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'ADMIN');
-insert into users(fullname, username, password, role) values('User', 'user', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'USER');

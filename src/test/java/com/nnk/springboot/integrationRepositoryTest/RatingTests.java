@@ -21,7 +21,12 @@ public class RatingTests {
     @Autowired
     private TestEntityManager entityManager;
     
-    private final Rating rating = new Rating("Moodys Rating", "Sand PRating", "Fitch Rating", 10);
+    private final Rating rating = Rating.builder()
+            .moodys("Moodys Rating")
+            .sand("Sand Rating")
+            .fitch("Fitch Rating")
+            .order(10)
+            .build();
     
     @Test
     public void ratingSaveTest() {
@@ -33,7 +38,7 @@ public class RatingTests {
     @Test
     public void ratingUpdateTest() {
         entityManager.persist(rating);
-        rating.setMoodysRating("new Moddys Rating");
+        rating.setMoodys("new Moddys Rating");
         ratingRepository.save(rating);
         
         Assertions.assertEquals(rating, entityManager.find(Rating.class, rating.getId()));

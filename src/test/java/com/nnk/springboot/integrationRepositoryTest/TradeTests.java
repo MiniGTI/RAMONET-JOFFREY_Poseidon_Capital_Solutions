@@ -21,8 +21,10 @@ public class TradeTests {
     @Autowired
     private TestEntityManager entityManager;
     
-    private final Trade trade = new Trade("Trade Account", "Type");
-    
+    private final Trade trade = Trade.builder()
+            .account("Trade Account")
+            .type("Type")
+            .build();
     
     @Test
     public void tradeSaveTest() {

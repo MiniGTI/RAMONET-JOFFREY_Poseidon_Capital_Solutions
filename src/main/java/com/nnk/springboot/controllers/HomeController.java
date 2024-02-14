@@ -1,23 +1,19 @@
 package com.nnk.springboot.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Controller class for the home page.
+ * Only accessible by ADMIN accounts.
+ * Link to back to the login page.
+ * Link to manage users.
+ */
 @Controller
-public class HomeController
-{
-	@RequestMapping("/")
-	public String home(Model model)
-	{
-		return "home";
-	}
-
-	@RequestMapping("/admin/home")
-	public String adminHome(Model model)
-	{
-		return "redirect:/bidList/list";
-	}
-
-
+public class HomeController {
+    
+    @RequestMapping("/")
+    public String home() {
+        return "home";
+    }
 }

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Home</title>
-<link rel="stylesheet" href="../../static/css/bootstrap.min.css" >
+<link rel="stylesheet" type="text/css" href="../../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" >
 </head>
 <body>
 <div class="container">
@@ -17,8 +17,8 @@
 			<a href="/ruleName/list">Rule</a>
 		</div>
 		<div class="col-6 text-right">
-			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<form th:action="@{/app-logout}" method="POST">
+			Logged in user: <b th:inline="text"  class="user"> <span th:text="${fullname}"></span></b>
+			<form th:action="@{/logout}" method="POST">
 				<input type="submit" value="Logout"/>
 			</form>
 		</div>
@@ -39,14 +39,14 @@
 			</thead>
 			<tbody>
 				<tr th:each="rating : ${ratings}">
-					<td style="width: 10%" th:text="${rating.id}"></td>
-					<td th:text="${rating.moodysRating}"></td>
-					<td th:text="${rating.sandPRating}"></td>
-					<td th:text="${rating.fitchRating}"></td>
-					<td th:text="${rating.order}"></td>
+					<td style="width: 10%" th:text="${rating.getId()}"></td>
+					<td th:text="${rating.getMoodys()}"></td>
+					<td th:text="${rating.getSand()}"></td>
+					<td th:text="${rating.getFitch()}"></td>
+					<td th:text="${rating.getOrder()}"></td>
 					<td style="width: 15%" class="text-center">
-						<a th:href="@{/rating/update/{id}(id=${rating.id})}">Edit</a>&nbsp;|&nbsp;
-						<a th:href="@{/rating/delete/{id}(id=${rating.id})}">Delete</a>
+						<a th:href="@{/rating/update/{id}(id=${rating.getId()})}">Edit</a>&nbsp;|&nbsp;
+						<a th:href="@{/rating/delete/{id}(id=${rating.getId()})}">Delete</a>
 					</td>
 				</tr>
 			</tbody>

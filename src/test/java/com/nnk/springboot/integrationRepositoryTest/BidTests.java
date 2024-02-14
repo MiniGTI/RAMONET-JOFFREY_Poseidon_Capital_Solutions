@@ -3,7 +3,6 @@ package com.nnk.springboot.integrationRepositoryTest;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -21,49 +22,52 @@ public class BidTests {
     @Autowired
     private TestEntityManager entityManager;
     
-    private final BidList bid = new BidList("Account Test", "Type Test", 10d);
-    
+    private final BidList bidList = BidList.builder()
+            .account("Account Test")
+            .type("Type Test")
+            .bidQuantity(10d)
+            .build();
     @Test
     public void bidListSaveTest() {
-        BidList result = bidListRepository.save(bid);
+        BidList result = bidListRepository.save(bidList);
         
-        Assertions.assertEquals(bid, result);
+        assertEquals(result, entityManager.find(BidList.class, result.getId()));
     }
     
     @Test
     public void bidListUpdateTest() {
-        entityManager.persist(bid);
-        bid.setBidQuantity(20d);
-        bidListRepository.save(bid);
+        entityManager.persist(bidList);
+        bidList.setBidQuantity(20d);
+        bidListRepository.save(bidList);
         
-        Assertions.assertEquals(bid, entityManager.find(BidList.class, bid.getId()));
+        assertEquals(bidList, entityManager.find(BidList.class, bidList.getId()));
     }
     
     @Test
     public void bidListFindByIdTest() {
-        entityManager.persist(bid);
+        entityManager.persist(bidList);
         
-        Optional<BidList> result = bidListRepository.findById(bid.getId());
+        Optional<BidList> result = bidListRepository.findById(bidList.getId());
         
-        Assertions.assertEquals(bid.getId(), result.get()
+        assertEquals(bidList.getId(), result.get()
                 .getId());
     }
     
     @Test
     public void bidListFindAllTest() {
-        entityManager.persist(bid);
+        entityManager.persist(bidList);
         
         List<BidList> result = bidListRepository.findAll();
         
-        Assertions.assertFalse(result.isEmpty());
+        assertFalse(result.isEmpty());
     }
     
     @Test
     public void bidListDeleteTest() {
-        entityManager.persist(bid);
+        entityManager.persist(bidList);
         
-        bidListRepository.deleteById(bid.getId());
+        bidListRepository.deleteById(bidList.getId());
         
-        Assertions.assertNull(entityManager.find(BidList.class, bid.getId()));
+        assertNull(entityManager.find(BidList.class, bidList.getId()));
     }
 }

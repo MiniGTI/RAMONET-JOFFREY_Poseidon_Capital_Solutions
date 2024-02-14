@@ -3,30 +3,26 @@ package com.nnk.springboot.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "curve_point")
 public class CurvePoint {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "curve_id")
     private int curveId;
     @Column(name = "as_of_date")
-    private Timestamp asOfDate;
-    private double term;
-    private double value;
+    private LocalDate asOfDate;
+    private Double term;
+    private Double value;
     @Column(name = "creation_date")
-    private Timestamp creationDate;
-    
-    public CurvePoint(double term, double value) {
-        this.term = term;
-        this.value = value;
-    }
+    private LocalDate creationDate;
 }
