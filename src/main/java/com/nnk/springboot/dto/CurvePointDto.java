@@ -1,5 +1,6 @@
 package com.nnk.springboot.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class CurvePointDto {
     
     private Integer id;
+    @NotNull(message = "Term can't be null, enter 0.")
     private Double term;
+    @NotNull(message = "Value can't be null, enter 0.")
     private Double value;
 }

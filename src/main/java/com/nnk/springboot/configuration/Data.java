@@ -2,6 +2,7 @@ package com.nnk.springboot.configuration;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -11,15 +12,13 @@ import java.util.List;
  * Class to input a default admin and user account.
  * If no account with role = ADMIN and USER present in the table, insert new user(s).
  */
+
+@AllArgsConstructor
 @Component
 public class Data {
     
     private final UserService userService;
-    
-    public Data(UserService userService) {
-        this.userService = userService;
-    }
-    
+
     /**
      * Call the getAllByRole method with ADMIN parameter of the userService.
      * If return an empty list, call the save method of the userService to persist the default admin account.

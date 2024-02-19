@@ -4,11 +4,16 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.dto.TradeDto;
 import com.nnk.springboot.services.TradeService;
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -19,18 +24,14 @@ import java.util.List;
  * Page to update Trades.
  * Page to delete Trades.
  */
+@AllArgsConstructor
 @Controller
 public class TradeController {
     
     private final TradeService tradeService;
     
     private final UserService userService;
-    
-    public TradeController(TradeService tradeService, UserService userService) {
-        this.tradeService = tradeService;
-        this.userService = userService;
-    }
-    
+
     @ModelAttribute("tradeDto")
     public TradeDto tradeDto() {
         return new TradeDto();

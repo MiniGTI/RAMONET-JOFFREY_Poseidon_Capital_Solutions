@@ -4,11 +4,16 @@ import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CurvePointDto;
 import com.nnk.springboot.services.CurvePointService;
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -19,18 +24,14 @@ import java.util.List;
  * Page to update CurvePoints.
  * Page to delete CurvePoints.
  */
+@AllArgsConstructor
 @Controller
 public class CurvePointController {
     
     private final CurvePointService curvePointService;
     
     private final UserService userService;
-    
-    public CurvePointController(CurvePointService curvePointService, UserService userService) {
-        this.curvePointService = curvePointService;
-        this.userService = userService;
-    }
-    
+
     @ModelAttribute("curvePointDto")
     public CurvePointDto curvePointDto() {
         return new CurvePointDto();

@@ -1,7 +1,16 @@
 package com.nnk.springboot.domain;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -21,7 +30,9 @@ public class CurvePoint {
     private int curveId;
     @Column(name = "as_of_date")
     private LocalDate asOfDate;
+    @NotNull(message = "Term can't be null, enter 0.")
     private Double term;
+    @NotNull(message = "Value can't be null, enter 0.")
     private Double value;
     @Column(name = "creation_date")
     private LocalDate creationDate;
