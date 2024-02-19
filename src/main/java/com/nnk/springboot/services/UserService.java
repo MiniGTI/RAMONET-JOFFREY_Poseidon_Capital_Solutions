@@ -5,28 +5,26 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.NewUserDto;
 import com.nnk.springboot.dto.UpdateUserDto;
 import com.nnk.springboot.repositories.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+@AllArgsConstructor
+@Slf4j
 @Service
 public class UserService {
-    
-    private final static Logger logger = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-    
+
     public User getById(int id) {
         Optional<User> optUser = userRepository.findById(id);
         User user;
@@ -91,7 +89,7 @@ public class UserService {
      * @return call the save méthode of the User repository.
      */
     public User save(NewUserDto newUserDto) {
-        logger.debug("Informations parsed to save are: username: " + newUserDto.getUsername() + " fullname: " +
+        log.debug("Informations parsed to save are: username: " + newUserDto.getUsername() + " fullname: " +
                 newUserDto.getFullname() + " role: " + newUserDto.getRole());
         return userRepository.save(User.builder()
                 .username(newUserDto.getUsername())
@@ -113,7 +111,7 @@ public class UserService {
      * @return call the save method of the User repository with the User updated.
      */
     public User update(UpdateUserDto updateUserDto) {
-        logger.debug("Informations parsed to update are: username: " + updateUserDto.getUsername() + " fullname: " +
+        log.debug("Informations parsed to update are: username: " + updateUserDto.getUsername() + " fullname: " +
                 updateUserDto.getFullname() + " role: " + updateUserDto.getRole());
         
         User userToUpdate = getById(updateUserDto.getId());
@@ -133,7 +131,7 @@ public class UserService {
         if(updateUserDto.getRole() != null) {
             userToUpdate.setRole(updateUserDto.getRole());
         }
-        logger.debug(
+        log.debug(
                 "The userToUpdate attributes: id:" + userToUpdate.getId() + " username: " + userToUpdate.getUsername() +
                         " fullname: " + userToUpdate.getFullname() + " role: " + userToUpdate.getRole());
         

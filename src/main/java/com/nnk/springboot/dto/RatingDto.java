@@ -1,5 +1,6 @@
 package com.nnk.springboot.dto;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,6 @@ public class RatingDto {
             max = 125,
             message = "Ficth name can not exceed 125 characters.")
     private String fitch;
+    @NotNull(message = "Order can't be null, enter 0.")
     private Integer order;
 }

@@ -3,24 +3,20 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.repositories.RatingRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
+@Slf4j
 @Service
 public class RatingService {
-    
-    private final static Logger logger = LoggerFactory.getLogger(RatingService.class);
-    
+
     private final RatingRepository ratingRepository;
-    
-    public RatingService(RatingRepository ratingRepository) {
-        this.ratingRepository = ratingRepository;
-    }
-    
+
     public Rating getById(int id) {
         Rating rating;
         Optional<Rating> optRating = ratingRepository.findById(id);
@@ -50,7 +46,7 @@ public class RatingService {
      * @return call the save méthode of the Rating repository.
      */
     public Rating save(RatingDto ratingDto) {
-        logger.debug("Informations parsed to save are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
+        log.debug("Informations parsed to save are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
                 ratingDto.getSand() + " fitchRating: " + ratingDto.getFitch() + " orderNumber: " +
                 ratingDto.getOrder());
         
@@ -73,7 +69,7 @@ public class RatingService {
      * @return call the save method of the Rating repository with the Rating updated.
      */
     public Rating update(RatingDto ratingDto) {
-        logger.debug("Informations parsed to update are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
+        log.debug("Informations parsed to update are: moodysRating: " + ratingDto.getMoodys() + " sandRating: " +
                 ratingDto.getSand() + " fitchRating: " + ratingDto.getFitch() + " orderNumber: " +
                 ratingDto.getOrder());
         
@@ -94,7 +90,7 @@ public class RatingService {
         if(ratingDto.getOrder() != null) {
             ratingUpdated.setOrder(ratingDto.getOrder());
         }
-        logger.debug("The ratingUpdated attributes: id: " + ratingUpdated.getId() + " moodysRating: " +
+        log.debug("The ratingUpdated attributes: id: " + ratingUpdated.getId() + " moodysRating: " +
                 ratingDto.getMoodys() + " sandRating: " + ratingDto.getSand() + "fitchRating: " + ratingDto.getFitch() +
                 " orderNumber: " + ratingDto.getOrder());
         return ratingRepository.save(ratingUpdated);

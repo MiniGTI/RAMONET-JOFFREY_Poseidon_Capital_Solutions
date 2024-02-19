@@ -4,11 +4,16 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.NewUserDto;
 import com.nnk.springboot.dto.UpdateUserDto;
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
@@ -17,26 +22,22 @@ import jakarta.validation.Valid;
  * Page to update User.
  * Page to delete User.
  */
+@AllArgsConstructor
 @Controller
 public class UserController {
-    
+
     private final UserService userService;
-    
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-    
-    
+
     @ModelAttribute("newUserDto")
     public NewUserDto newUserDto() {
         return new NewUserDto();
     }
-    
+
     @ModelAttribute("updateUserDto")
     public UpdateUserDto updateUserDto() {
         return new UpdateUserDto();
     }
-    
+
     /**
      * To get and display the User list.
      *
@@ -48,7 +49,7 @@ public class UserController {
         model.addAttribute("users", userService.getAll());
         return "user/list";
     }
-    
+
     /**
      * To display the add page.
      *
@@ -58,7 +59,7 @@ public class UserController {
     public String addUser() {
         return "user/add";
     }
-    
+
     /**
      * To get data from the validate form into the add page.
      *
@@ -69,14 +70,14 @@ public class UserController {
      */
     @PostMapping("/user/validate")
     public String validate(@Valid NewUserDto newUserDto, BindingResult result, Model model) {
-        if(!result.hasErrors()) {
+        if (!result.hasErrors()) {
             userService.save(newUserDto);
             model.addAttribute("newUserDto", newUserDto);
             return "redirect:/user/list";
         }
         return "user/add";
     }
-    
+
     /**
      * To display the update page.
      *
@@ -91,7 +92,7 @@ public class UserController {
         model.addAttribute("user", user);
         return "user/update";
     }
-    
+
     /**
      * To perform the update form of the page.
      *
@@ -104,16 +105,16 @@ public class UserController {
     @PostMapping("/user/update/{id}")
     public String updateUser(
             @PathVariable("id") Integer id, @Valid UpdateUserDto updateUserDto, BindingResult result, Model model) {
-        if(!result.hasErrors()) {
+        if (!result.hasErrors()) {
             updateUserDto.setId(id);
             userService.update(updateUserDto);
             model.addAttribute("updateUserDto", updateUserDto);
             return "redirect:/user/list";
         }
-        
+
         return showUpdateForm(id, model);
     }
-    
+
     /**
      * Manage the delete button.
      * To delete the User.

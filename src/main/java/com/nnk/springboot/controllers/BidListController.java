@@ -4,6 +4,7 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.services.BidListService;
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,18 +21,14 @@ import java.util.List;
  * Page to update BidLists.
  * Page to delete BidLists.
  */
+@AllArgsConstructor
 @Controller
 public class BidListController {
     
     private final BidListService bidListService;
     
     private final UserService userService;
-    
-    public BidListController(BidListService bidListService, UserService userService) {
-        this.bidListService = bidListService;
-        this.userService = userService;
-    }
-    
+
     @ModelAttribute("bidListDto")
     public BidListDto bidListDto() {
         return new BidListDto();

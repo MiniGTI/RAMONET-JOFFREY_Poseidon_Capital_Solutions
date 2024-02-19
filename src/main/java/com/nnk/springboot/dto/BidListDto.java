@@ -1,5 +1,6 @@
 package com.nnk.springboot.dto;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +27,6 @@ public class BidListDto {
             max = 30,
             message = "The type name can not exceed 30 characters.")
     private String type;
+    @NotNull(message = "BidQuantity can't be null, enter 0.")
     private Double bidQuantity;
 }

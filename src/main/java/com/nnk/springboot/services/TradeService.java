@@ -3,24 +3,20 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.dto.TradeDto;
 import com.nnk.springboot.repositories.TradeRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
+@Slf4j
 @Service
 public class TradeService {
-    
-    private final static Logger logger = LoggerFactory.getLogger(TradeService.class);
-    
+
     private final TradeRepository tradeRepository;
-    
-    public TradeService(TradeRepository tradeRepository) {
-        this.tradeRepository = tradeRepository;
-    }
-    
+
     public Trade getById(Integer id) {
         Optional<Trade> optTrade = tradeRepository.findById(id);
         Trade trade;
@@ -50,7 +46,7 @@ public class TradeService {
      * @return call the save méthode of the Trade repository.
      */
     public Trade save(TradeDto tradeDto) {
-        logger.debug(
+        log.debug(
                 "Informations parsed to save are: account: " + tradeDto.getAccount() + " type: " + tradeDto.getType() +
                         " buyQuantity: " + tradeDto.getBuyQuantity());
         
@@ -72,7 +68,7 @@ public class TradeService {
      * @return call the save method of the Trade repository with the Trade updated.
      */
     public Trade update(TradeDto tradeDto) {
-        logger.debug("Informations parsed to update are: account: " + tradeDto.getAccount() + " type: " +
+        log.debug("Informations parsed to update are: account: " + tradeDto.getAccount() + " type: " +
                 tradeDto.getType() + " buyQuantity: " + tradeDto.getBuyQuantity());
         
         Trade tradeUpdated = getById(tradeDto.getId());
@@ -88,7 +84,7 @@ public class TradeService {
         if(tradeDto.getBuyQuantity() != null) {
             tradeUpdated.setBuyQuantity(tradeDto.getBuyQuantity());
         }
-        logger.debug(
+        log.debug(
                 "The tradeUpdated attributes: id: " + tradeUpdated.getId() + " account: " + tradeUpdated.getAccount() +
                         " type: " + tradeUpdated.getType() + " buyQuantity: " + tradeUpdated.getBuyQuantity());
         

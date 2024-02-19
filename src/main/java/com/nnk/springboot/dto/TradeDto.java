@@ -1,6 +1,7 @@
 package com.nnk.springboot.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class TradeDto {
             max = 30,
             message = "The type name can not exceed 30 characters.")
     private String type;
+    @NotNull(message = "BuyQuantity can't be null, enter 0.")
     @Column(name = "buy_quantity")
     private Double buyQuantity;
 }

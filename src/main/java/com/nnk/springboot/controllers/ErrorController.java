@@ -1,6 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +12,12 @@ import java.security.Principal;
  * Controller class for the Error folder.
  * Page to display error403.
  */
+@AllArgsConstructor
 @Controller
 public class ErrorController {
     
     private final UserService userService;
-    
-    public ErrorController(UserService userService) {
-        this.userService = userService;
-    }
-    
+
     /**
      * To display the 403 error page.
      * Display the principal/s fullname.
