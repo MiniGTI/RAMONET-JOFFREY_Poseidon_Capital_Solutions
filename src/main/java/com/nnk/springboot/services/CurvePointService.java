@@ -3,8 +3,7 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CurvePointDto;
 import com.nnk.springboot.repositories.CurvePointRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,10 +12,9 @@ import java.util.Optional;
 
 
 @Service
+@Slf4j
 public class CurvePointService {
-    
-    private final static Logger logger = LoggerFactory.getLogger(CurvePointService.class);
-    
+
     private final CurvePointRepository curvePointRepository;
     
     public CurvePointService(CurvePointRepository curvePointRepository) {
@@ -55,7 +53,7 @@ public class CurvePointService {
      * @return call the save méthode of the CurvePoint repository.
      */
     public CurvePoint save(CurvePointDto curvePointDto) {
-        logger.debug("Informations parsed to save are: term: " + curvePointDto.getTerm() + " value: " +
+        log.debug("Informations parsed to save are: term: " + curvePointDto.getTerm() + " value: " +
                 curvePointDto.getValue());
         return curvePointRepository.save(CurvePoint.builder()
                 .term(curvePointDto.getTerm())
@@ -75,7 +73,7 @@ public class CurvePointService {
      * @return call the save method of the CurvePoint repository with the CurvePoint updated.
      */
     public CurvePoint update(CurvePointDto curvePointDto) {
-        logger.debug("Informations parsed to update are: term: " + curvePointDto.getTerm() + " value: " +
+        log.debug("Informations parsed to update are: term: " + curvePointDto.getTerm() + " value: " +
                 curvePointDto.getValue());
         
         CurvePoint curvePointUpdated = getById(curvePointDto.getId());
@@ -87,7 +85,7 @@ public class CurvePointService {
             curvePointUpdated.setValue(curvePointDto.getValue());
         }
         
-        logger.debug("The curvePointUpdated attributes are: term: " + curvePointUpdated.getTerm() + " value: " +
+        log.debug("The curvePointUpdated attributes are: term: " + curvePointUpdated.getTerm() + " value: " +
                 curvePointUpdated.getValue());
         
         return curvePointRepository.save(curvePointUpdated);

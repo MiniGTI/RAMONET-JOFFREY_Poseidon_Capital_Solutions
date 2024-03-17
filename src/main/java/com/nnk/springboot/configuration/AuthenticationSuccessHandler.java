@@ -34,26 +34,15 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
         
-        boolean hasUserRole = false;
-        boolean hasAdminRole = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        
         for(GrantedAuthority grantedAuthority : authorities) {
-            if(grantedAuthority.getAuthority()
-                    .equals("ROLE_USER")) {
-                hasUserRole = true;
-                break;
-            } else if(grantedAuthority.getAuthority()
-                    .equals("ROLE_ADMIN")) {
-                hasAdminRole = true;
-                break;
+            String authority = grantedAuthority.getAuthority();
+            switch(authority) {
+                case "ROLE_ADMIN" -> redirectStrategy.sendRedirect(request, response, "/");
+                case "ROLE_USER" -> redirectStrategy.sendRedirect(request, response, "/bidList/list");
+                default -> throw new IllegalStateException();
             }
-        }
-        if(hasUserRole) {
-            redirectStrategy.sendRedirect(request, response, "/bidList/list");
-        } else if(hasAdminRole) {
-            redirectStrategy.sendRedirect(request, response, "/");
-        } else {
-            throw new IllegalStateException();
         }
     }
 }

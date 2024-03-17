@@ -3,23 +3,22 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.repositories.BidListRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class BidListService {
-    
-    private final static Logger logger = LoggerFactory.getLogger(RatingService.class);
     
     private final BidListRepository bidListRepository;
     
     public BidListService(BidListRepository bidListRepository) {
         this.bidListRepository = bidListRepository;
     }
+    
     
     public BidList getById(Integer id) {
         Optional<BidList> optBidList = bidListRepository.findById(id);
@@ -32,9 +31,11 @@ public class BidListService {
         return bidList;
     }
     
+    
     public List<BidList> getAll() {
         return bidListRepository.findAll();
     }
+    
     
     public BidList save(BidList bidList) {
         return bidListRepository.save(bidList);
@@ -48,8 +49,9 @@ public class BidListService {
      * @param bidListDto the Dto object created by the add form in the bidList/add.html page.
      * @return call the save méthode of the BidList repository.
      */
+    
     public BidList save(BidListDto bidListDto) {
-        logger.debug("Informations parsed to save are: account: " + bidListDto.getAccount() + " type: " +
+        log.debug("Informations parsed to save are: account: " + bidListDto.getAccount() + " type: " +
                 bidListDto.getType() + " buyQuantity: " + bidListDto.getBidQuantity());
         
         return bidListRepository.save(BidList.builder()
@@ -69,8 +71,9 @@ public class BidListService {
      *                   After that, check all attributes to verify if are empty. If not, set the BidList to update with the attributes of the BidListDto parsed.
      * @return call the save method of the BidList repository with the BidList updated.
      */
+    
     public BidList update(BidListDto bidListDto) {
-        logger.debug("Informations parsed to update are: account: " + bidListDto.getAccount() + " type: " +
+        log.debug("Informations parsed to update are: account: " + bidListDto.getAccount() + " type: " +
                 bidListDto.getType() + " buyQuantity: " + bidListDto.getBidQuantity());
         
         BidList bidListToUpdate = getById(bidListDto.getId());
@@ -87,7 +90,7 @@ public class BidListService {
             bidListToUpdate.setBidQuantity(bidListDto.getBidQuantity());
         }
         
-        logger.debug("The tradeUpdated attributes: id: " + bidListToUpdate.getId() + " account: " +
+        log.debug("The tradeUpdated attributes: id: " + bidListToUpdate.getId() + " account: " +
                 bidListToUpdate.getAccount() + " type: " + bidListToUpdate.getType() + " buyQuantity: " +
                 bidListToUpdate.getBidQuantity());
         return bidListRepository.save(bidListToUpdate);
