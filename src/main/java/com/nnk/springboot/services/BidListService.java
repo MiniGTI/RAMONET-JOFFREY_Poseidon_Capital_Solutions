@@ -3,20 +3,23 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.dto.BidListDto;
 import com.nnk.springboot.repositories.BidListRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Slf4j
 @Service
+@Slf4j
 public class BidListService {
-
+    
     private final BidListRepository bidListRepository;
-
+    
+    public BidListService(BidListRepository bidListRepository) {
+        this.bidListRepository = bidListRepository;
+    }
+    
+    
     public BidList getById(Integer id) {
         Optional<BidList> optBidList = bidListRepository.findById(id);
         BidList bidList;
@@ -28,9 +31,11 @@ public class BidListService {
         return bidList;
     }
     
+    
     public List<BidList> getAll() {
         return bidListRepository.findAll();
     }
+    
     
     public BidList save(BidList bidList) {
         return bidListRepository.save(bidList);
@@ -44,6 +49,7 @@ public class BidListService {
      * @param bidListDto the Dto object created by the add form in the bidList/add.html page.
      * @return call the save méthode of the BidList repository.
      */
+    
     public BidList save(BidListDto bidListDto) {
         log.debug("Informations parsed to save are: account: " + bidListDto.getAccount() + " type: " +
                 bidListDto.getType() + " buyQuantity: " + bidListDto.getBidQuantity());
@@ -65,6 +71,7 @@ public class BidListService {
      *                   After that, check all attributes to verify if are empty. If not, set the BidList to update with the attributes of the BidListDto parsed.
      * @return call the save method of the BidList repository with the BidList updated.
      */
+    
     public BidList update(BidListDto bidListDto) {
         log.debug("Informations parsed to update are: account: " + bidListDto.getAccount() + " type: " +
                 bidListDto.getType() + " buyQuantity: " + bidListDto.getBidQuantity());

@@ -3,7 +3,6 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.dto.CurvePointDto;
 import com.nnk.springboot.repositories.CurvePointRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +10,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Slf4j
+
 @Service
+@Slf4j
 public class CurvePointService {
 
     private final CurvePointRepository curvePointRepository;
-
+    
+    public CurvePointService(CurvePointRepository curvePointRepository) {
+        this.curvePointRepository = curvePointRepository;
+    }
+    
     public CurvePoint getById(Integer id) {
         Optional<CurvePoint> optCurvePoint = curvePointRepository.findById(id);
         CurvePoint curvePoint;

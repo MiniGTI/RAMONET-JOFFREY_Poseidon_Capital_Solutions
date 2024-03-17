@@ -3,20 +3,22 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.dto.RuleNameDto;
 import com.nnk.springboot.repositories.RuleNameRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Slf4j
 @Service
+@Slf4j
 public class RuleNameService {
-    
-    private final RuleNameRepository ruleNameRepository;
 
+    private final RuleNameRepository ruleNameRepository;
+    
+    public RuleNameService(RuleNameRepository ruleNameRepository) {
+        this.ruleNameRepository = ruleNameRepository;
+    }
+    
     public RuleName getById(Integer id) {
         Optional<RuleName> optRuleName = ruleNameRepository.findById(id);
         RuleName ruleName;

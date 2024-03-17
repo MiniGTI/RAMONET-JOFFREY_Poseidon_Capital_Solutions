@@ -5,7 +5,6 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.dto.NewUserDto;
 import com.nnk.springboot.dto.UpdateUserDto;
 import com.nnk.springboot.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,14 +16,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Slf4j
 @Service
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-
+    
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+    
     public User getById(int id) {
         Optional<User> optUser = userRepository.findById(id);
         User user;

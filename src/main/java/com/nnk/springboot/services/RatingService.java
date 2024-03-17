@@ -3,20 +3,22 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.repositories.RatingRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@Slf4j
 @Service
+@Slf4j
 public class RatingService {
 
     private final RatingRepository ratingRepository;
-
+    
+    public RatingService(RatingRepository ratingRepository) {
+        this.ratingRepository = ratingRepository;
+    }
+    
     public Rating getById(int id) {
         Rating rating;
         Optional<Rating> optRating = ratingRepository.findById(id);
