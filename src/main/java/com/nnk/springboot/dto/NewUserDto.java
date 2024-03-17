@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class NewUserDto {
-    
+
     private Integer id;
     @NotBlank(message = "Username is mandatory")
     private String username;

@@ -4,11 +4,16 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.services.RatingService;
 import com.nnk.springboot.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -19,18 +24,14 @@ import java.util.List;
  * Page to update Ratings.
  * Page to delete Ratings.
  */
+@AllArgsConstructor
 @Controller
 public class RatingController {
     
     private final RatingService ratingService;
     
     private final UserService userService;
-    
-    public RatingController(RatingService ratingService, UserService userService) {
-        this.ratingService = ratingService;
-        this.userService = userService;
-    }
-    
+
     @ModelAttribute("ratingDto")
     public RatingDto ratingDto() {
         return new RatingDto();

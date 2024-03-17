@@ -1,9 +1,11 @@
 package com.nnk.springboot.unitServiceTest;
 
+import com.nnk.springboot.configuration.Data;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.dto.RatingDto;
 import com.nnk.springboot.repositories.RatingRepository;
 import com.nnk.springboot.services.RatingService;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,10 @@ public class RatingServiceTest {
     
 @MockBean
     private RatingRepository ratingRepository;
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private Data data;
 
 private final Rating rating = new Rating(1, "moodysRating", "sandRating", "fitchRating", 1);
 
